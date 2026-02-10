@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Shop Pro | Complete E-Commerce Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
         /* ===== RESET & BASE STYLES ===== */
         :root {
@@ -21,6 +24,8 @@
             --border: #e2e8f0;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --gradient-primary: linear-gradient(135deg, #4361ee, #3a0ca3);
+            --gradient-secondary: linear-gradient(135deg, #4cc9f0, #3a86ff);
         }
         
         * {
@@ -36,6 +41,12 @@
             line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
+        }
+        
+        #root {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         /* ===== UTILITY CLASSES ===== */
@@ -110,7 +121,7 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: var(--gradient-primary);
             color: white;
         }
         
@@ -199,6 +210,7 @@
             font-weight: 700;
             color: var(--primary-dark);
             text-decoration: none;
+            cursor: pointer;
         }
         
         .logo-icon {
@@ -222,6 +234,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            cursor: pointer;
         }
         
         .nav-link:hover,
@@ -235,7 +248,7 @@
         }
         
         .user-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: var(--gradient-primary);
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 6px;
@@ -273,6 +286,7 @@
             text-decoration: none;
             border-bottom: 1px solid var(--border);
             transition: background 0.3s ease;
+            cursor: pointer;
         }
         
         .dropdown-item:hover {
@@ -283,6 +297,25 @@
         .dropdown-item i {
             width: 20px;
             color: var(--gray);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
         }
         
         .cart-btn {
@@ -324,20 +357,20 @@
         .main-content {
             margin-top: 70px;
             min-height: calc(100vh - 70px);
+            flex: 1;
         }
         
         .page {
             display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
         
         .page.active {
             display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            opacity: 1;
+            transform: translateY(0);
         }
         
         /* ===== HERO SECTION ===== */
@@ -557,7 +590,7 @@
             border: 1px solid var(--border);
             border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .form-control:focus {
@@ -587,9 +620,79 @@
             font-size: 1.5rem;
         }
         
+        /* ===== LOGIN PAGES ===== */
+        .login-container {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 2rem;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+        
+        .login-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .login-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .login-title {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-body {
+            padding: 2rem;
+        }
+        
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .login-footer {
+            text-align: center;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
         /* ===== PORTALS ===== */
         .portal-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: var(--gradient-primary);
             color: white;
             padding: 3rem 1.5rem;
             text-align: center;
@@ -633,11 +736,15 @@
         
         .portal-tab {
             display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
         
         .portal-tab.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .stats-grid {
@@ -712,36 +819,6 @@
             color: #166534;
         }
         
-        /* ===== COURIER SECTION ===== */
-        .courier-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-        
-        .courier-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
-            border: 2px solid transparent;
-        }
-        
-        .courier-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
-        
-        .courier-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
         /* ===== CART MODAL ===== */
         .cart-modal {
             position: fixed;
@@ -757,6 +834,12 @@
         
         .cart-modal.active {
             display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .cart-container {
@@ -860,105 +943,6 @@
             margin-bottom: 1rem;
         }
         
-        /* ===== CHATBOT ===== */
-        .chatbot-container {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: var(--shadow-lg);
-            display: none;
-            flex-direction: column;
-            z-index: 1002;
-            overflow: hidden;
-        }
-        
-        .chatbot-container.active {
-            display: flex;
-            animation: slideUp 0.3s ease;
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .chatbot-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .chatbot-messages {
-            flex: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .chatbot-message {
-            max-width: 80%;
-            padding: 0.75rem 1rem;
-            border-radius: 18px;
-            line-height: 1.4;
-        }
-        
-        .message-user {
-            background: var(--primary);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-        
-        .message-bot {
-            background: #f1f5f9;
-            color: var(--dark);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-        
-        .chatbot-input {
-            padding: 1rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .chatbot-input input {
-            flex: 1;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        
-        .chatbot-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            z-index: 1001;
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
         /* ===== NOTIFICATIONS ===== */
         .notification {
             position: fixed;
@@ -1002,7 +986,7 @@
             background: var(--darker);
             color: white;
             padding: 4rem 1.5rem 2rem;
-            margin-top: 4rem;
+            margin-top: auto;
         }
         
         .footer-content {
@@ -1035,6 +1019,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            cursor: pointer;
         }
         
         .footer-links a:hover {
@@ -1049,19 +1034,23 @@
             font-size: 0.875rem;
         }
         
-        /* ===== LOADING ===== */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 999;
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .mobile-menu.active {
+            display: flex;
         }
         
         /* ===== RESPONSIVE DESIGN ===== */
@@ -1089,36 +1078,12 @@
                 display: block;
             }
             
-            .mobile-menu {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                right: 0;
-                background: white;
-                box-shadow: var(--shadow);
-                padding: 1rem;
-                display: none;
-                flex-direction: column;
-                gap: 0.5rem;
-                z-index: 999;
-            }
-            
-            .mobile-menu.active {
-                display: flex;
-            }
-            
             .hero-content h1 {
                 font-size: 2rem;
             }
             
             .section-title {
                 font-size: 2rem;
-            }
-            
-            .chatbot-container {
-                width: calc(100% - 40px);
-                right: 20px;
-                height: 400px;
             }
             
             .portal-nav {
@@ -1148,768 +1113,31 @@
                 max-width: 100%;
             }
         }
+        
+        /* ===== LOADING ===== */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-    <!-- ===== NOTIFICATION SYSTEM ===== -->
+    <!-- NOTIFICATION SYSTEM -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notification-message">Notification message</span>
     </div>
 
-    <!-- ===== MAIN NAVIGATION ===== -->
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="#" class="logo" onclick="showPage('home')">
-                <i class="fas fa-shopping-cart logo-icon"></i>
-                <span>E-Shop Pro</span>
-            </a>
-
-            <div class="nav-links">
-                <a href="#" class="nav-link active" onclick="showPage('home')">
-                    <i class="fas fa-home"></i> Home
-                </a>
-                <a href="#" class="nav-link" onclick="showPage('products')">
-                    <i class="fas fa-store"></i> Shop
-                </a>
-                <a href="#" class="nav-link" onclick="showPage('services')">
-                    <i class="fas fa-tools"></i> Services
-                </a>
-                <a href="#" class="nav-link" onclick="showPage('courses')">
-                    <i class="fas fa-graduation-cap"></i> Courses
-                </a>
-
-                <div class="user-menu">
-                    <button class="user-btn">
-                        <i class="fas fa-user"></i> Portals
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a href="#" class="dropdown-item" onclick="showPage('client')">
-                            <i class="fas fa-user-circle"></i> Client Portal
-                        </a>
-                        <a href="#" class="dropdown-item" onclick="showPage('rider')">
-                            <i class="fas fa-motorcycle"></i> Rider Portal
-                        </a>
-                        <a href="#" class="dropdown-item" onclick="showPage('delivery')">
-                            <i class="fas fa-shipping-fast"></i> Delivery Portal
-                        </a>
-                        <a href="#" class="dropdown-item" onclick="showPage('admin')">
-                            <i class="fas fa-tachometer-alt"></i> Admin Dashboard
-                        </a>
-                    </div>
-                </div>
-
-                <button class="cart-btn" onclick="toggleCart()">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="cart-count">0</span>
-                </button>
-            </div>
-
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-
-        <div class="mobile-menu" id="mobileMenu">
-            <a href="#" class="nav-link" onclick="showPage('home')">
-                <i class="fas fa-home"></i> Home
-            </a>
-            <a href="#" class="nav-link" onclick="showPage('products')">
-                <i class="fas fa-store"></i> Shop
-            </a>
-            <a href="#" class="nav-link" onclick="showPage('services')">
-                <i class="fas fa-tools"></i> Services
-            </a>
-            <a href="#" class="nav-link" onclick="showPage('courses')">
-                <i class="fas fa-graduation-cap"></i> Courses
-            </a>
-            <a href="#" class="nav-link" onclick="showPage('client')">
-                <i class="fas fa-user-circle"></i> Client Portal
-            </a>
-            <a href="#" class="nav-link" onclick="showPage('rider')">
-                <i class="fas fa-motorcycle"></i> Rider Portal
-            </a>
-            <a href="#" class="nav-link" onclick="showPage('delivery')">
-                <i class="fas fa-shipping-fast"></i> Delivery Portal
-            </a>
-            <a href="#" class="nav-link" onclick="showPage('admin')">
-                <i class="fas fa-tachometer-alt"></i> Admin Dashboard
-            </a>
-            <button class="nav-link" onclick="toggleCart()" style="text-align: left; background: none; border: none;">
-                <i class="fas fa-shopping-cart"></i> Cart (<span id="mobile-cart-count">0</span>)
-            </button>
-        </div>
-    </nav>
-
-    <!-- ===== MAIN CONTENT ===== -->
-    <div class="main-content">
-        <!-- Home Page -->
-        <div class="page active" id="home-page">
-            <section class="hero">
-                <div class="hero-content">
-                    <h1>Complete E-Commerce Platform</h1>
-                    <p>Shop, Book Services, Learn Courses & Manage Everything in One Place</p>
-                    <div class="hero-buttons">
-                        <button class="btn btn-primary btn-lg" onclick="showPage('products')">
-                            <i class="fas fa-shopping-bag"></i> Start Shopping
-                        </button>
-                        <button class="btn btn-secondary btn-lg" onclick="showPage('services')">
-                            <i class="fas fa-calendar-check"></i> Book Service
-                        </button>
-                        <button class="btn btn-outline btn-lg" onclick="showPage('courses')">
-                            <i class="fas fa-graduation-cap"></i> Explore Courses
-                        </button>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="hero-img">
-                        <i class="fas fa-shopping-cart" style="font-size: 15rem; color: var(--primary); opacity: 0.8;"></i>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <h2 class="section-title">Shop by Category</h2>
-                <div class="categories-grid">
-                    <div class="category-card" onclick="filterProducts('electronics')">
-                        <i class="fas fa-laptop category-icon"></i>
-                        <h3>Electronics</h3>
-                        <p>Latest gadgets & devices</p>
-                    </div>
-                    <div class="category-card" onclick="filterProducts('home')">
-                        <i class="fas fa-home category-icon"></i>
-                        <h3>Home & Living</h3>
-                        <p>Furniture & decor</p>
-                    </div>
-                    <div class="category-card" onclick="filterProducts('fashion')">
-                        <i class="fas fa-tshirt category-icon"></i>
-                        <h3>Fashion</h3>
-                        <p>Clothing & accessories</p>
-                    </div>
-                    <div class="category-card" onclick="filterProducts('tools')">
-                        <i class="fas fa-tools category-icon"></i>
-                        <h3>Tools & Equipment</h3>
-                        <p>Professional tools</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="section">
-                <div class="products-header">
-                    <h2 class="section-title" style="text-align: left; margin: 0;">Featured Products</h2>
-                    <button class="btn btn-primary" onclick="showPage('products')">
-                        View All Products <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-                <div class="products-grid" id="featured-products">
-                    <!-- Products loaded by JavaScript -->
-                </div>
-            </section>
-        </div>
-
-        <!-- Products Page -->
-        <div class="page" id="products-page">
-            <section class="section">
-                <div class="products-header">
-                    <h2 class="section-title" style="text-align: left; margin: 0;">All Products</h2>
-                    <div class="product-filters">
-                        <button class="filter-btn active" onclick="filterProducts('all')">All</button>
-                        <button class="filter-btn" onclick="filterProducts('electronics')">Electronics</button>
-                        <button class="filter-btn" onclick="filterProducts('home')">Home</button>
-                        <button class="filter-btn" onclick="filterProducts('fashion')">Fashion</button>
-                        <button class="filter-btn" onclick="filterProducts('tools')">Tools</button>
-                    </div>
-                </div>
-                <div class="products-grid" id="all-products">
-                    <!-- All products loaded by JavaScript -->
-                </div>
-            </section>
-        </div>
-
-        <!-- Services Page -->
-        <div class="page" id="services-page">
-            <section class="section">
-                <h2 class="section-title">Professional Services</h2>
-                <div class="services-container">
-                    <div class="booking-form">
-                        <h3 style="margin-bottom: 2rem;"><i class="fas fa-calendar-check"></i> Book a Service</h3>
-                        <div class="form-group">
-                            <label class="form-label" for="service-type">Service Type</label>
-                            <select class="form-control" id="service-type">
-                                <option value="repair">Repair & Maintenance</option>
-                                <option value="installation">Installation Service</option>
-                                <option value="consultation">Professional Consultation</option>
-                                <option value="emergency">Emergency Service</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="service-date">Preferred Date</label>
-                            <input type="date" class="form-control" id="service-date">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="service-time">Preferred Time</label>
-                            <input type="time" class="form-control" id="service-time">
-                        </div>
-                        <button class="btn btn-primary btn-full" onclick="bookService()">
-                            <i class="fas fa-bookmark"></i> Book Service Now
-                        </button>
-                    </div>
-                    <div>
-                        <h3 style="margin-bottom: 1.5rem;"><i class="fas fa-shield-alt"></i> Service Benefits</h3>
-                        <div class="service-features">
-                            <div class="feature">
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <h4>Same-Day Service</h4>
-                                    <p>Available for emergencies</p>
-                                </div>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <h4>Certified Technicians</h4>
-                                    <p>Expert professionals</p>
-                                </div>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <h4>90-Day Warranty</h4>
-                                    <p>On all repairs</p>
-                                </div>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-check-circle"></i>
-                                <div>
-                                    <h4>Real-Time Tracking</h4>
-                                    <p>Monitor service progress</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Courses Page -->
-        <div class="page" id="courses-page">
-            <section class="section">
-                <h2 class="section-title">Online Courses</h2>
-                <div class="products-grid">
-                    <div class="product-card">
-                        <div class="product-img">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Digital Marketing 101</h3>
-                            <p class="product-category">Marketing & Business</p>
-                            <div class="product-price">$49.99</div>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                (4.7)
-                            </div>
-                            <button class="btn btn-primary btn-full" onclick="addCourseToCart('Digital Marketing 101', 49.99)">
-                                <i class="fas fa-shopping-cart"></i> Enroll Now
-                            </button>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Web Development Basics</h3>
-                            <p class="product-category">Technology & Programming</p>
-                            <div class="product-price">$69.99</div>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                (5.0)
-                            </div>
-                            <button class="btn btn-primary btn-full" onclick="addCourseToCart('Web Development Basics', 69.99)">
-                                <i class="fas fa-shopping-cart"></i> Enroll Now
-                            </button>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-img">
-                            <i class="fas fa-paint-brush"></i>
-                        </div>
-                        <div class="product-info">
-                            <h3 class="product-title">Graphic Design Masterclass</h3>
-                            <p class="product-category">Design & Creative</p>
-                            <div class="product-price">$59.99</div>
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                (4.9)
-                            </div>
-                            <button class="btn btn-primary btn-full" onclick="addCourseToCart('Graphic Design Masterclass', 59.99)">
-                                <i class="fas fa-shopping-cart"></i> Enroll Now
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Client Portal -->
-        <div class="page" id="client-page">
-            <div class="portal-header">
-                <h1 class="portal-title"><i class="fas fa-user-circle"></i> Client Portal</h1>
-                <p>Manage your orders, services, and courses</p>
-                <div class="portal-nav">
-                    <button class="portal-tab-btn active" onclick="showPortalTab('client-dashboard')">Dashboard</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('client-orders')">My Orders</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('client-services')">Services</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('client-courses')">My Courses</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('client-settings')">Settings</button>
-                </div>
-            </div>
-            <div class="portal-content">
-                <!-- Client Dashboard -->
-                <div class="portal-tab active" id="client-dashboard">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <i class="fas fa-shopping-bag stat-icon"></i>
-                            <h3>Active Orders</h3>
-                            <div class="stat-number">3</div>
-                            <p>2 in transit</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-tools stat-icon"></i>
-                            <h3>Service Requests</h3>
-                            <div class="stat-number">2</div>
-                            <p>1 scheduled</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-graduation-cap stat-icon"></i>
-                            <h3>Course Progress</h3>
-                            <div class="stat-number">75%</div>
-                            <p>Digital Marketing</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-star stat-icon"></i>
-                            <h3>Loyalty Points</h3>
-                            <div class="stat-number">1,250</div>
-                            <p>Redeem rewards</p>
-                        </div>
-                    </div>
-
-                    <h3 class="mt-4 mb-2"><i class="fas fa-shipping-fast"></i> Recent Orders</h3>
-                    <div class="task-list">
-                        <div class="task-item">
-                            <div>
-                                <h4>Wireless Headphones</h4>
-                                <p>Order #ORD-78901 • Placed: Today</p>
-                            </div>
-                            <div>
-                                <span class="status status-in-progress">In Transit</span>
-                                <p class="mt-1" style="font-weight: bold;">$129.99</p>
-                            </div>
-                        </div>
-                        <div class="task-item">
-                            <div>
-                                <h4>Smart Watch Pro</h4>
-                                <p>Order #ORD-78902 • Placed: Yesterday</p>
-                            </div>
-                            <div>
-                                <span class="status status-pending">Processing</span>
-                                <p class="mt-1" style="font-weight: bold;">$249.99</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Client Orders -->
-                <div class="portal-tab" id="client-orders">
-                    <h2><i class="fas fa-history"></i> Order History</h2>
-                    <div class="task-list mt-3">
-                        <!-- Orders loaded dynamically -->
-                    </div>
-                </div>
-
-                <!-- Client Services -->
-                <div class="portal-tab" id="client-services">
-                    <div class="flex" style="justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                        <h2><i class="fas fa-calendar-check"></i> Service History</h2>
-                        <button class="btn btn-primary" onclick="showPage('services')">
-                            <i class="fas fa-plus"></i> Book New Service
-                        </button>
-                    </div>
-                    <div class="task-list">
-                        <!-- Services loaded dynamically -->
-                    </div>
-                </div>
-
-                <!-- Client Courses -->
-                <div class="portal-tab" id="client-courses">
-                    <h2><i class="fas fa-graduation-cap"></i> My Courses</h2>
-                    <div class="stats-grid mt-3">
-                        <div class="stat-card">
-                            <i class="fas fa-chart-line stat-icon"></i>
-                            <h3>Digital Marketing 101</h3>
-                            <div class="stat-number">75%</div>
-                            <p>15/20 lessons completed</p>
-                            <button class="btn btn-primary btn-sm btn-full mt-2">
-                                <i class="fas fa-play"></i> Continue Learning
-                            </button>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-code stat-icon"></i>
-                            <h3>Web Development Basics</h3>
-                            <div class="stat-number">30%</div>
-                            <p>6/20 lessons completed</p>
-                            <button class="btn btn-outline btn-sm btn-full mt-2">
-                                <i class="fas fa-play"></i> Resume Course
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Client Settings -->
-                <div class="portal-tab" id="client-settings">
-                    <h2><i class="fas fa-user-cog"></i> Account Settings</h2>
-                    <div class="booking-form mt-3">
-                        <div class="form-group">
-                            <label class="form-label" for="client-name">Full Name</label>
-                            <input type="text" class="form-control" id="client-name" value="John Doe">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="client-email">Email Address</label>
-                            <input type="email" class="form-control" id="client-email" value="john@example.com">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="client-phone">Phone Number</label>
-                            <input type="tel" class="form-control" id="client-phone" value="+1 234 567 8900">
-                        </div>
-                        <button class="btn btn-primary btn-full">
-                            <i class="fas fa-save"></i> Save Changes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Rider Portal -->
-        <div class="page" id="rider-page">
-            <div class="portal-header">
-                <h1 class="portal-title"><i class="fas fa-motorcycle"></i> Rider Portal</h1>
-                <p>Manage deliveries and track earnings</p>
-                <div class="portal-nav">
-                    <button class="portal-tab-btn active" onclick="showPortalTab('rider-dashboard')">Dashboard</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('rider-deliveries')">Active Deliveries</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('rider-earnings')">Earnings</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('rider-schedule')">Schedule</button>
-                </div>
-            </div>
-            <div class="portal-content">
-                <!-- Rider Dashboard -->
-                <div class="portal-tab active" id="rider-dashboard">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <i class="fas fa-box stat-icon"></i>
-                            <h3>Active Deliveries</h3>
-                            <div class="stat-number">5</div>
-                            <p>3 urgent</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-money-bill-wave stat-icon"></i>
-                            <h3>Today's Earnings</h3>
-                            <div class="stat-number">$124.50</div>
-                            <p>From 8 deliveries</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-chart-line stat-icon"></i>
-                            <h3>Completion Rate</h3>
-                            <div class="stat-number">98%</div>
-                            <p>This month</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-star stat-icon"></i>
-                            <h3>Customer Rating</h3>
-                            <div class="stat-number">4.8★</div>
-                            <p>Based on 124 ratings</p>
-                        </div>
-                    </div>
-
-                    <h3 class="mt-4 mb-2"><i class="fas fa-tasks"></i> Today's Deliveries</h3>
-                    <div class="task-list" id="rider-tasks">
-                        <!-- Tasks loaded dynamically -->
-                    </div>
-
-                    <div class="flex mt-3" style="gap: 1rem; flex-wrap: wrap;">
-                        <button class="btn btn-success" onclick="updateDeliveryStatus('accepted')">
-                            <i class="fas fa-check"></i> Accept Delivery
-                        </button>
-                        <button class="btn btn-primary" onclick="updateDeliveryStatus('started')">
-                            <i class="fas fa-play"></i> Start Delivery
-                        </button>
-                        <button class="btn btn-secondary" onclick="updateDeliveryStatus('completed')">
-                            <i class="fas fa-flag-checkered"></i> Mark Complete
-                        </button>
-                        <button class="btn btn-warning" onclick="updateDeliveryStatus('issue')">
-                            <i class="fas fa-exclamation-triangle"></i> Report Issue
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Rider Deliveries -->
-                <div class="portal-tab" id="rider-deliveries">
-                    <h2><i class="fas fa-boxes"></i> Delivery Management</h2>
-                    <div class="task-list mt-3">
-                        <div class="task-item">
-                            <div>
-                                <h4>Delivery #DL-78901</h4>
-                                <p>Customer: John Smith • Address: 123 Main St</p>
-                                <p class="mt-1">Items: 2 • Weight: 2.5kg</p>
-                            </div>
-                            <div>
-                                <span class="status status-pending">Pending Pickup</span>
-                                <p class="mt-1">Distance: 3.2km</p>
-                            </div>
-                        </div>
-                        <div class="task-item">
-                            <div>
-                                <h4>Delivery #DL-78902</h4>
-                                <p>Customer: Sarah Johnson • Address: 456 Oak Ave</p>
-                                <p class="mt-1">Items: 1 • Weight: 1.2kg</p>
-                            </div>
-                            <div>
-                                <span class="status status-in-progress">In Transit</span>
-                                <p class="mt-1">Distance: 1.8km</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Delivery Portal -->
-        <div class="page" id="delivery-page">
-            <div class="portal-header">
-                <h1 class="portal-title"><i class="fas fa-shipping-fast"></i> Delivery Management Portal</h1>
-                <p>Shipment tracking and courier integration</p>
-                <div class="portal-nav">
-                    <button class="portal-tab-btn active" onclick="showPortalTab('delivery-shipments')">Shipments</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('delivery-pickups')">Pickups</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('delivery-labels')">Labels</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('delivery-couriers')">Couriers</button>
-                </div>
-            </div>
-            <div class="portal-content">
-                <!-- Delivery Shipments -->
-                <div class="portal-tab active" id="delivery-shipments">
-                    <div class="flex" style="gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
-                        <button class="btn btn-primary" onclick="scanBarcode()">
-                            <i class="fas fa-barcode"></i> Scan Barcode
-                        </button>
-                        <button class="btn btn-secondary" onclick="printLabel()">
-                            <i class="fas fa-print"></i> Print Label
-                        </button>
-                        <button class="btn btn-outline" onclick="showManifest()">
-                            <i class="fas fa-clipboard-list"></i> Daily Manifest
-                        </button>
-                    </div>
-
-                    <h2><i class="fas fa-boxes"></i> Today's Shipments</h2>
-                    <div class="task-list mt-3">
-                        <div class="task-item">
-                            <div>
-                                <h4>Shipment #SH-78901</h4>
-                                <p>Customer: John Smith • 3 items</p>
-                                <p class="mt-1">Weight: 2.5kg • Dimensions: 30×20×15cm</p>
-                            </div>
-                            <div>
-                                <span class="status status-pending">Ready for Pickup</span>
-                                <p class="mt-1">Destination: City Center</p>
-                            </div>
-                        </div>
-                        <div class="task-item">
-                            <div>
-                                <h4>Shipment #SH-78902</h4>
-                                <p>Customer: Sarah Johnson • 1 item</p>
-                                <p class="mt-1">Weight: 1.2kg • Dimensions: 25×15×10cm</p>
-                            </div>
-                            <div>
-                                <span class="status status-in-progress">In Transit</span>
-                                <p class="mt-1">ETA: 2 hours</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Delivery Couriers -->
-                <div class="portal-tab" id="delivery-couriers">
-                    <h2><i class="fas fa-truck-loading"></i> Courier Services</h2>
-                    <div class="courier-grid mt-3">
-                        <div class="courier-card" onclick="selectCourier('auspost')">
-                            <i class="fas fa-truck courier-icon"></i>
-                            <h3>Australia Post</h3>
-                            <p>Local & International</p>
-                        </div>
-                        <div class="courier-card" onclick="selectCourier('dhl')">
-                            <i class="fas fa-shipping-fast courier-icon"></i>
-                            <h3>DHL Express</h3>
-                            <p>Fast International</p>
-                        </div>
-                        <div class="courier-card" onclick="selectCourier('fedex')">
-                            <i class="fas fa-box courier-icon"></i>
-                            <h3>FedEx</h3>
-                            <p>Reliable Shipping</p>
-                        </div>
-                        <div class="courier-card" onclick="selectCourier('ups')">
-                            <i class="fas fa-globe courier-icon"></i>
-                            <h3>UPS</h3>
-                            <p>Worldwide Delivery</p>
-                        </div>
-                    </div>
-
-                    <div class="booking-form mt-4">
-                        <h3><i class="fas fa-dollar-sign"></i> Live Shipping Rates</h3>
-                        <div class="mt-3">
-                            <div class="flex" style="justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--border);">
-                                <span>Australia Post Express</span>
-                                <span style="font-weight: bold;">$15.99</span>
-                            </div>
-                            <div class="flex" style="justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--border);">
-                                <span>DHL International</span>
-                                <span style="font-weight: bold;">$24.50</span>
-                            </div>
-                            <div class="flex" style="justify-content: space-between; padding: 1rem 0;">
-                                <span>FedEx Ground</span>
-                                <span style="font-weight: bold;">$12.75</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Admin Dashboard -->
-        <div class="page" id="admin-page">
-            <div class="portal-header">
-                <h1 class="portal-title"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
-                <p>Complete platform management and analytics</p>
-                <div class="portal-nav">
-                    <button class="portal-tab-btn active" onclick="showPortalTab('admin-overview')">Overview</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('admin-orders')">Orders</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('admin-inventory')">Inventory</button>
-                    <button class="portal-tab-btn" onclick="showPortalTab('admin-analytics')">Analytics</button>
-                </div>
-            </div>
-            <div class="portal-content">
-                <!-- Admin Overview -->
-                <div class="portal-tab active" id="admin-overview">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <i class="fas fa-chart-line stat-icon"></i>
-                            <h3>Total Revenue</h3>
-                            <div class="stat-number">$24,589</div>
-                            <p>This month</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-shopping-cart stat-icon"></i>
-                            <h3>Total Orders</h3>
-                            <div class="stat-number">1,245</div>
-                            <p>+12% from last month</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-users stat-icon"></i>
-                            <h3>Active Users</h3>
-                            <div class="stat-number">3,456</div>
-                            <p>248 new this week</p>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-box-open stat-icon"></i>
-                            <h3>Low Stock</h3>
-                            <div class="stat-number">8</div>
-                            <p>Items need restocking</p>
-                        </div>
-                    </div>
-
-                    <div class="grid mt-4" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
-                        <div class="booking-form">
-                            <h3><i class="fas fa-fire"></i> Top Products</h3>
-                            <div class="mt-3">
-                                <div class="flex" style="justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--border);">
-                                    <span>Wireless Headphones</span>
-                                    <span style="font-weight: bold;">$4,560</span>
-                                </div>
-                                <div class="flex" style="justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid var(--border);">
-                                    <span>Smart Watch Pro</span>
-                                    <span style="font-weight: bold;">$3,890</span>
-                                </div>
-                                <div class="flex" style="justify-content: space-between; padding: 0.75rem 0;">
-                                    <span>Gaming Laptop</span>
-                                    <span style="font-weight: bold;">$2,940</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="booking-form">
-                            <h3><i class="fas fa-bell"></i> Recent Alerts</h3>
-                            <div class="mt-3">
-                                <div style="background: #fef3c7; padding: 1rem; border-radius: 6px; margin-bottom: 0.75rem;">
-                                    <i class="fas fa-exclamation-triangle" style="color: #92400e;"></i>
-                                    Low stock: Wireless headphones
-                                </div>
-                                <div style="background: #d1fae5; padding: 1rem; border-radius: 6px; margin-bottom: 0.75rem;">
-                                    <i class="fas fa-check-circle" style="color: #065f46;"></i>
-                                    5 new orders received
-                                </div>
-                                <div style="background: #dbeafe; padding: 1rem; border-radius: 6px;">
-                                    <i class="fas fa-info-circle" style="color: #1e40af;"></i>
-                                    System backup completed
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== CHATBOT ===== -->
-    <div class="chatbot-container" id="chatbot">
-        <div class="chatbot-header">
-            <h3><i class="fas fa-robot"></i> AI Assistant</h3>
-            <button onclick="toggleChatbot()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">×</button>
-        </div>
-        <div class="chatbot-messages" id="chatbot-messages">
-            <div class="chatbot-message message-bot">
-                Hello! I'm your AI assistant. How can I help you today? You can ask about:
-                <ul style="margin-top: 0.5rem; padding-left: 1rem;">
-                    <li>Products and pricing</li>
-                    <li>Order status</li>
-                    <li>Service booking</li>
-                    <li>Course information</li>
-                </ul>
-            </div>
-        </div>
-        <div class="chatbot-input">
-            <input type="text" id="chatbot-input" placeholder="Type your message..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
-            <button class="btn btn-primary" onclick="sendChatMessage()">
-                <i class="fas fa-paper-plane"></i>
-            </button>
-        </div>
-    </div>
-    <button class="chatbot-toggle" onclick="toggleChatbot()">
-        <i class="fas fa-comment-dots"></i>
-    </button>
-
-    <!-- ===== CART MODAL ===== -->
+    <!-- CART MODAL -->
     <div class="cart-modal" id="cart-modal">
         <div class="cart-container">
             <div class="cart-header">
@@ -1934,559 +1162,415 @@
         </div>
     </div>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Platform Access</h3>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="showPage('client')"><i class="fas fa-user-circle"></i> Client Portal</a></li>
-                    <li><a href="#" onclick="showPage('rider')"><i class="fas fa-motorcycle"></i> Rider Portal</a></li>
-                    <li><a href="#" onclick="showPage('delivery')"><i class="fas fa-shipping-fast"></i> Delivery Portal</a></li>
-                    <li><a href="#" onclick="showPage('admin')"><i class="fas fa-tachometer-alt"></i> Admin Dashboard</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="showPage('home')"><i class="fas fa-home"></i> Home</a></li>
-                    <li><a href="#" onclick="showPage('products')"><i class="fas fa-store"></i> Shop</a></li>
-                    <li><a href="#" onclick="showPage('services')"><i class="fas fa-tools"></i> Services</a></li>
-                    <li><a href="#" onclick="showPage('courses')"><i class="fas fa-graduation-cap"></i> Courses</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
-                    <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
-                    <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
-                    <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Connect With Us</h3>
-                <ul class="footer-links">
-                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
-                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
-                    <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2024 E-Shop Pro. All Rights Reserved.</p>
-            <p class="mt-1">Complete E-Commerce Platform • Fully Functional • Single HTML File</p>
-        </div>
-    </footer>
+    <!-- ROOT ELEMENT FOR REACT -->
+    <div id="root"></div>
 
-    <script>
-        // ===== GLOBAL STATE =====
-        let currentPage = 'home';
-        let currentPortalTab = '';
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let products = [];
-        let deliveries = [];
-        let serviceBookings = JSON.parse(localStorage.getItem('serviceBookings')) || [];
-        let orders = JSON.parse(localStorage.getItem('orders')) || [];
-        let chatbotOpen = false;
-
-        // ===== INITIALIZATION =====
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeData();
-            updateCartCount();
-            showPage('home');
-            setMinDateForServices();
-            updateNavActiveState();
-            
-            // Test all components on load
-            setTimeout(() => {
-                testAllComponents();
-            }, 1000);
-        });
-
-        function initializeData() {
-            // Initialize products
-            products = [
-                { 
-                    id: 1, 
-                    name: "Wireless Headphones", 
-                    price: 129.99, 
-                    category: "electronics", 
+    <script type="text/babel">
+        // ===== DUMMY DATA =====
+        const dummyData = {
+            products: [
+                {
+                    id: 1,
+                    name: "Wireless Bluetooth Headphones",
+                    description: "Premium noise-cancelling headphones with 30-hour battery life",
+                    price: 129.99,
+                    category: "electronics",
                     icon: "headphones",
                     rating: 4.5,
-                    stock: 15,
-                    description: "Premium wireless headphones with noise cancellation"
+                    stock: 25,
+                    sku: "ELEC-001",
+                    features: ["Noise Cancelling", "30h Battery", "Bluetooth 5.0", "Foldable"]
                 },
-                { 
-                    id: 2, 
-                    name: "Smart Watch Pro", 
-                    price: 249.99, 
-                    category: "electronics", 
+                {
+                    id: 2,
+                    name: "Smart Watch Pro",
+                    description: "Advanced smartwatch with health monitoring and GPS",
+                    price: 249.99,
+                    category: "electronics",
                     icon: "clock",
                     rating: 4.8,
-                    stock: 8,
-                    description: "Advanced smartwatch with health tracking"
+                    stock: 15,
+                    sku: "ELEC-002",
+                    features: ["Heart Rate Monitor", "GPS", "Water Resistant", "7-day Battery"]
                 },
-                { 
-                    id: 3, 
-                    name: "Gaming Laptop", 
-                    price: 1299.99, 
-                    category: "electronics", 
+                {
+                    id: 3,
+                    name: "Gaming Laptop",
+                    description: "High-performance gaming laptop with RTX 4070",
+                    price: 1499.99,
+                    category: "electronics",
                     icon: "laptop",
                     rating: 4.7,
-                    stock: 5,
-                    description: "High-performance gaming laptop"
+                    stock: 8,
+                    sku: "ELEC-003",
+                    features: ["RTX 4070", "32GB RAM", "1TB SSD", "144Hz Display"]
                 },
-                { 
-                    id: 4, 
-                    name: "Bluetooth Speaker", 
-                    price: 89.99, 
-                    category: "electronics", 
-                    icon: "volume-up",
-                    rating: 4.3,
-                    stock: 25,
-                    description: "Portable Bluetooth speaker"
-                },
-                { 
-                    id: 5, 
-                    name: "Modern Desk Lamp", 
-                    price: 49.99, 
-                    category: "home", 
+                {
+                    id: 4,
+                    name: "Modern Desk Lamp",
+                    description: "LED desk lamp with adjustable brightness",
+                    price: 49.99,
+                    category: "home",
                     icon: "lightbulb",
                     rating: 4.6,
                     stock: 30,
-                    description: "LED desk lamp with adjustable brightness"
+                    sku: "HOME-001",
+                    features: ["Adjustable Brightness", "Touch Control", "USB Charging", "Modern Design"]
                 },
-                { 
-                    id: 6, 
-                    name: "Office Chair", 
-                    price: 199.99, 
-                    category: "home", 
+                {
+                    id: 5,
+                    name: "Ergonomic Office Chair",
+                    description: "Premium ergonomic chair with lumbar support",
+                    price: 299.99,
+                    category: "home",
                     icon: "chair",
                     rating: 4.4,
                     stock: 12,
-                    description: "Ergonomic office chair"
+                    sku: "HOME-002",
+                    features: ["Lumbar Support", "Adjustable Height", "Breathable Mesh", "5-year Warranty"]
                 },
-                { 
-                    id: 7, 
-                    name: "Designer T-Shirt", 
-                    price: 29.99, 
-                    category: "fashion", 
+                {
+                    id: 6,
+                    name: "Designer T-Shirt",
+                    description: "Premium cotton t-shirt with modern design",
+                    price: 29.99,
+                    category: "fashion",
                     icon: "tshirt",
                     rating: 4.2,
                     stock: 50,
-                    description: "Premium cotton t-shirt"
+                    sku: "FASH-001",
+                    features: ["100% Cotton", "Premium Print", "Multiple Colors", "Machine Wash"]
                 },
-                { 
-                    id: 8, 
-                    name: "Professional Tool Set", 
-                    price: 149.99, 
-                    category: "tools", 
+                {
+                    id: 7,
+                    name: "Professional Tool Set",
+                    description: "Complete professional tool kit for all projects",
+                    price: 149.99,
+                    category: "tools",
                     icon: "tools",
                     rating: 4.9,
                     stock: 20,
-                    description: "Complete professional tool kit"
-                }
-            ];
-
-            // Initialize deliveries for rider portal
-            deliveries = [
-                { 
-                    id: 1, 
-                    orderId: "ORD-78901",
-                    customer: "John Smith", 
-                    address: "123 Main St, City", 
-                    status: "pending", 
-                    items: 2,
-                    distance: "3.2km",
-                    amount: "$129.99"
+                    sku: "TOOL-001",
+                    features: ["142 Pieces", "Storage Case", "Lifetime Warranty", "Professional Grade"]
                 },
-                { 
-                    id: 2, 
-                    orderId: "ORD-78902",
-                    customer: "Sarah Johnson", 
-                    address: "456 Oak Ave, Town", 
-                    status: "in-progress", 
-                    items: 1,
-                    distance: "1.8km",
-                    amount: "$249.99"
+                {
+                    id: 8,
+                    name: "Smart Home Speaker",
+                    description: "Voice-controlled smart speaker with premium sound",
+                    price: 89.99,
+                    category: "electronics",
+                    icon: "volume-up",
+                    rating: 4.3,
+                    stock: 30,
+                    sku: "ELEC-004",
+                    features: ["Voice Control", "360° Sound", "Smart Home Integration", "WiFi/Bluetooth"]
+                }
+            ],
+            
+            courses: [
+                {
+                    id: 1,
+                    title: "Digital Marketing Masterclass",
+                    description: "Learn digital marketing from scratch with practical strategies",
+                    price: 49.99,
+                    duration: "8 weeks",
+                    lessons: 24,
+                    enrolled: 1245,
+                    rating: 4.7,
+                    instructor: "Sarah Johnson",
+                    category: "marketing",
+                    icon: "chart-line",
+                    modules: [
+                        "Introduction to Digital Marketing",
+                        "SEO Fundamentals",
+                        "Social Media Marketing",
+                        "Email Marketing",
+                        "Content Strategy",
+                        "Analytics & Reporting"
+                    ]
                 },
-                { 
-                    id: 3, 
-                    orderId: "ORD-78903",
-                    customer: "Mike Wilson", 
-                    address: "789 Pine Rd, Village", 
-                    status: "pending", 
-                    items: 3,
-                    distance: "4.5km",
-                    amount: "$89.97"
+                {
+                    id: 2,
+                    title: "Web Development Bootcamp",
+                    description: "Complete web development course from HTML to React",
+                    price: 69.99,
+                    duration: "12 weeks",
+                    lessons: 36,
+                    enrolled: 2156,
+                    rating: 4.9,
+                    instructor: "Michael Chen",
+                    category: "development",
+                    icon: "code",
+                    modules: [
+                        "HTML5 & CSS3",
+                        "JavaScript Fundamentals",
+                        "React.js",
+                        "Node.js Basics",
+                        "Database Integration",
+                        "Deployment"
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Data Science Fundamentals",
+                    description: "Learn data analysis and visualization with Python",
+                    price: 59.99,
+                    duration: "10 weeks",
+                    lessons: 30,
+                    enrolled: 987,
+                    rating: 4.6,
+                    instructor: "Dr. Emily Rodriguez",
+                    category: "data",
+                    icon: "chart-bar",
+                    modules: [
+                        "Python for Data Science",
+                        "Pandas & NumPy",
+                        "Data Visualization",
+                        "Statistical Analysis",
+                        "Machine Learning Basics",
+                        "Project Work"
+                    ]
                 }
-            ];
-
-            // Initialize sample orders if none exist
-            if (orders.length === 0) {
-                orders = [
-                    {
-                        id: "ORD-78901",
-                        date: "2024-01-15",
-                        items: ["Wireless Headphones"],
-                        total: 129.99,
-                        status: "delivered"
-                    },
-                    {
-                        id: "ORD-78902",
-                        date: "2024-01-10",
-                        items: ["Smart Watch Pro"],
-                        total: 249.99,
-                        status: "in-progress"
-                    },
-                    {
-                        id: "ORD-78900",
-                        date: "2024-01-05",
-                        items: ["Bluetooth Speaker"],
-                        total: 89.99,
-                        status: "delivered"
-                    }
-                ];
-                localStorage.setItem('orders', JSON.stringify(orders));
-            }
-
-            // Initialize sample service bookings if none exist
-            if (serviceBookings.length === 0) {
-                serviceBookings = [
-                    {
-                        id: 1,
-                        type: "repair",
-                        date: "2024-01-20",
-                        time: "14:00",
-                        status: "scheduled"
-                    },
-                    {
-                        id: 2,
-                        type: "installation",
-                        date: "2024-01-15",
-                        time: "10:00",
-                        status: "completed"
-                    }
-                ];
-                localStorage.setItem('serviceBookings', JSON.stringify(serviceBookings));
-            }
-
-            // Render initial data
-            renderFeaturedProducts();
-            renderAllProducts();
-            updateRiderTasks();
-            renderClientOrders();
-            renderClientServices();
-        }
-
-        // ===== PAGE NAVIGATION =====
-        function showPage(pageId) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
+            ],
             
-            // Show selected page
-            document.getElementById(pageId + '-page').classList.add('active');
-            
-            // Update current page
-            currentPage = pageId;
-            
-            // Update navigation active state
-            updateNavActiveState();
-            
-            // Close mobile menu if open
-            document.getElementById('mobileMenu').classList.remove('active');
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Initialize portal tabs if needed
-            if (pageId === 'client' || pageId === 'rider' || pageId === 'delivery' || pageId === 'admin') {
-                const portalId = pageId + '-dashboard';
-                showPortalTab(portalId);
-            }
-            
-            // Show notification for page change
-            showNotification(`Navigated to ${getPageName(pageId)}`);
-        }
-
-        function getPageName(pageId) {
-            const pageNames = {
-                'home': 'Home',
-                'products': 'Products',
-                'services': 'Services',
-                'courses': 'Courses',
-                'client': 'Client Portal',
-                'rider': 'Rider Portal',
-                'delivery': 'Delivery Portal',
-                'admin': 'Admin Dashboard'
-            };
-            return pageNames[pageId] || pageId;
-        }
-
-        function updateNavActiveState() {
-            // Update main navigation
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('onclick')?.includes(`'${currentPage}'`)) {
-                    link.classList.add('active');
+            services: [
+                {
+                    id: 1,
+                    name: "Computer Repair",
+                    description: "Professional repair for all computer issues",
+                    price: 79.99,
+                    duration: "2-4 hours",
+                    category: "repair",
+                    icon: "laptop-medical",
+                    features: [
+                        "Virus Removal",
+                        "Hardware Diagnostics",
+                        "OS Installation",
+                        "Data Recovery"
+                    ]
+                },
+                {
+                    id: 2,
+                    name: "Home Installation",
+                    description: "Smart home device installation and setup",
+                    price: 149.99,
+                    duration: "3-5 hours",
+                    category: "installation",
+                    icon: "home",
+                    features: [
+                        "Smart TV Setup",
+                        "Home Theater",
+                        "Security Systems",
+                        "WiFi Optimization"
+                    ]
+                },
+                {
+                    id: 3,
+                    name: "IT Consultation",
+                    description: "Expert IT advice for businesses",
+                    price: 99.99,
+                    duration: "1-2 hours",
+                    category: "consultation",
+                    icon: "user-tie",
+                    features: [
+                        "System Analysis",
+                        "Security Audit",
+                        "Infrastructure Planning",
+                        "Budgeting"
+                    ]
+                },
+                {
+                    id: 4,
+                    name: "Emergency Support",
+                    description: "24/7 emergency technical support",
+                    price: 199.99,
+                    duration: "Immediate",
+                    category: "emergency",
+                    icon: "ambulance",
+                    features: [
+                        "24/7 Availability",
+                        "Remote Support",
+                        "On-site Service",
+                        "Priority Handling"
+                    ]
                 }
-            });
-        }
-
-        function showPortalTab(tabId) {
-            // Hide all tabs in current portal
-            const portalPage = document.querySelector('.page.active');
-            portalPage.querySelectorAll('.portal-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
+            ],
             
-            // Show selected tab
-            document.getElementById(tabId).classList.add('active');
-            
-            // Update tab buttons
-            const portalNav = portalPage.querySelector('.portal-nav');
-            if (portalNav) {
-                portalNav.querySelectorAll('.portal-tab-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
-                // Find and activate the clicked button
-                const activeBtn = Array.from(portalNav.querySelectorAll('.portal-tab-btn')).find(btn => 
-                    btn.getAttribute('onclick')?.includes(`'${tabId}'`)
-                );
-                if (activeBtn) {
-                    activeBtn.classList.add('active');
+            users: [
+                {
+                    id: 1,
+                    name: "John Client",
+                    email: "client@example.com",
+                    password: "password123",
+                    role: "client",
+                    avatar: "JC",
+                    phone: "+1 234 567 8900",
+                    address: "123 Main St, City, Country",
+                    createdAt: "2024-01-15T10:30:00Z",
+                    enrolledCourses: [1, 2],
+                    bookings: [1, 2]
+                },
+                {
+                    id: 2,
+                    name: "Alex Rider",
+                    email: "rider@example.com",
+                    password: "password123",
+                    role: "rider",
+                    avatar: "AR",
+                    phone: "+1 234 567 8901",
+                    vehicle: "Yamaha MT-07",
+                    license: "RID-001",
+                    activeDeliveries: 3,
+                    rating: 4.8,
+                    totalDeliveries: 124
+                },
+                {
+                    id: 3,
+                    name: "Sam Delivery",
+                    email: "delivery@example.com",
+                    password: "password123",
+                    role: "delivery",
+                    avatar: "SD",
+                    phone: "+1 234 567 8902",
+                    department: "Logistics",
+                    employeeId: "DEL-001",
+                    permissions: ["scan", "print", "track"]
+                },
+                {
+                    id: 4,
+                    name: "Admin User",
+                    email: "admin@example.com",
+                    password: "admin123",
+                    role: "admin",
+                    avatar: "AU",
+                    phone: "+1 234 567 8903",
+                    permissions: ["all"],
+                    lastLogin: new Date().toISOString()
                 }
+            ],
+            
+            categories: [
+                { id: 'all', name: 'All Products' },
+                { id: 'electronics', name: 'Electronics' },
+                { id: 'home', name: 'Home & Living' },
+                { id: 'fashion', name: 'Fashion' },
+                { id: 'tools', name: 'Tools' }
+            ]
+        };
+
+        // ===== GLOBAL STATE =====
+        let currentPage = 'home';
+        let currentUser = null;
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let serviceBookings = JSON.parse(localStorage.getItem('serviceBookings')) || [];
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        let courseEnrollments = JSON.parse(localStorage.getItem('courseEnrollments')) || [];
+        let deliveries = JSON.parse(localStorage.getItem('deliveries')) || [
+            {
+                id: 1,
+                orderId: "ORD-78901",
+                customer: "John Smith",
+                address: "123 Main St, City",
+                status: "pending",
+                items: 2,
+                distance: "3.2km",
+                amount: "$129.99",
+                riderId: 2
+            },
+            {
+                id: 2,
+                orderId: "ORD-78902",
+                customer: "Sarah Johnson",
+                address: "456 Oak Ave, Town",
+                status: "in-progress",
+                items: 1,
+                distance: "1.8km",
+                amount: "$249.99",
+                riderId: 2
+            }
+        ];
+
+        // ===== UTILITY FUNCTIONS =====
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const messageEl = document.getElementById('notification-message');
+            
+            if (!notification || !messageEl) return;
+            
+            messageEl.textContent = message;
+            notification.className = 'notification active';
+            notification.classList.add(type === 'error' ? 'notification-error' : 
+                                     type === 'warning' ? 'notification-warning' : '');
+            
+            const icon = notification.querySelector('i');
+            if (icon) {
+                icon.className = type === 'error' ? 'fas fa-exclamation-circle' :
+                               type === 'warning' ? 'fas fa-exclamation-triangle' :
+                               'fas fa-check-circle';
             }
             
-            currentPortalTab = tabId;
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 3000);
         }
 
-        // ===== PRODUCT MANAGEMENT =====
-        function renderFeaturedProducts() {
-            const container = document.getElementById('featured-products');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            // Show first 4 products as featured
-            const featuredProducts = products.slice(0, 4);
-            
-            featuredProducts.forEach(product => {
-                const productCard = createProductCard(product);
-                container.appendChild(productCard);
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const cartCountElements = document.querySelectorAll('.cart-count');
+            cartCountElements.forEach(el => {
+                el.textContent = totalItems;
             });
         }
 
-        function renderAllProducts() {
-            const container = document.getElementById('all-products');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            products.forEach(product => {
-                const productCard = createProductCard(product);
-                container.appendChild(productCard);
-            });
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
         }
 
-        function createProductCard(product) {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-                <div class="product-img">
-                    <i class="fas fa-${product.icon}"></i>
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">${product.name}</h3>
-                    <p class="product-category">${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
-                    <div class="product-price">$${product.price.toFixed(2)}</div>
-                    <div class="product-rating">
-                        ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
-                        (${product.rating})
-                    </div>
-                    <div class="mt-2" style="font-size: 0.875rem; color: var(--gray);">
-                        ${product.stock} in stock
-                    </div>
-                    <button class="btn btn-primary btn-full mt-2" onclick="addToCart(${product.id})">
-                        <i class="fas fa-cart-plus"></i> Add to Cart
-                    </button>
-                    <button class="btn btn-outline btn-full mt-1" onclick="showProductDetails(${product.id})">
-                        <i class="fas fa-info-circle"></i> Details
-                    </button>
-                </div>
-            `;
-            return card;
-        }
-
-        function filterProducts(category) {
-            // Update filter buttons
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            const container = document.getElementById('all-products');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            let filteredProducts;
-            if (category === 'all') {
-                filteredProducts = products;
-            } else {
-                filteredProducts = products.filter(p => p.category === category);
-            }
-            
-            if (filteredProducts.length === 0) {
-                container.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-                        <i class="fas fa-box-open" style="font-size: 3rem; color: var(--gray); margin-bottom: 1rem;"></i>
-                        <h3>No products found</h3>
-                        <p>Try selecting a different category</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            filteredProducts.forEach(product => {
-                const productCard = createProductCard(product);
-                container.appendChild(productCard);
-            });
-            
-            showNotification(`Showing ${filteredProducts.length} ${category === 'all' ? 'products' : category + ' products'}`);
-        }
-
-        function showProductDetails(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            
-            // Create modal for product details
-            const modalHtml = `
-                <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 500px; margin: 2rem auto;">
-                    <div style="text-align: center; margin-bottom: 2rem;">
-                        <i class="fas fa-${product.icon}" style="font-size: 4rem; color: var(--primary);"></i>
-                    </div>
-                    <h2 style="margin-bottom: 1rem;">${product.name}</h2>
-                    <div style="color: var(--gray); margin-bottom: 1rem;">${product.description}</div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-                        <div>
-                            <div style="font-size: 2rem; font-weight: bold; color: var(--primary);">$${product.price.toFixed(2)}</div>
-                            <div style="color: var(--gray);">${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</div>
-                        </div>
-                        <div>
-                            <div class="product-rating">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))} (${product.rating})</div>
-                            <div style="color: var(--gray); margin-top: 0.5rem;">${product.stock} in stock</div>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                        <button class="btn btn-primary" onclick="addToCart(${product.id}); hideProductDetails();" style="flex: 1;">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                        <button class="btn btn-outline" onclick="hideProductDetails()" style="flex: 1;">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // Create overlay
-            const overlay = document.createElement('div');
-            overlay.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.5);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 2000;
-                padding: 1rem;
-            `;
-            overlay.innerHTML = modalHtml;
-            overlay.onclick = function(e) {
-                if (e.target === overlay) {
-                    document.body.removeChild(overlay);
-                }
-            };
-            
-            document.body.appendChild(overlay);
-        }
-
-        function hideProductDetails() {
-            const overlay = document.querySelector('div[style*="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);"]');
-            if (overlay) {
-                document.body.removeChild(overlay);
-            }
-        }
-
-        // ===== CART MANAGEMENT =====
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product) {
-                showNotification('Product not found!', 'error');
-                return;
-            }
-            
-            const existingItem = cart.find(item => item.id === productId);
+        function addToCart(product, quantity = 1) {
+            const existingItem = cart.find(item => item.id === product.id);
             
             if (existingItem) {
-                existingItem.quantity++;
+                existingItem.quantity = (existingItem.quantity || 1) + quantity;
             } else {
                 cart.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    icon: product.icon,
-                    quantity: 1
+                    ...product,
+                    quantity: quantity
                 });
             }
             
-            updateCart();
+            saveCart();
             showNotification(`${product.name} added to cart!`);
             
-            // Auto-open cart on mobile
             if (window.innerWidth < 768) {
                 toggleCart();
             }
         }
 
-        function addCourseToCart(courseName, price) {
-            const existingItem = cart.find(item => item.name === courseName && item.type === 'course');
-            
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
-                cart.push({
-                    id: Date.now(), // Unique ID for courses
-                    name: courseName,
-                    price: price,
-                    icon: 'graduation-cap',
-                    quantity: 1,
-                    type: 'course'
-                });
+        function removeFromCart(productId) {
+            const index = cart.findIndex(item => item.id === productId);
+            if (index !== -1) {
+                const itemName = cart[index].name;
+                cart.splice(index, 1);
+                saveCart();
+                showNotification(`${itemName} removed from cart`);
             }
-            
-            updateCart();
-            showNotification(`${courseName} added to cart!`);
         }
 
-        function updateCart() {
-            updateCartCount();
-            renderCartItems();
-            saveCart();
+        function updateQuantity(productId, quantity) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                if (quantity < 1) {
+                    removeFromCart(productId);
+                } else {
+                    item.quantity = quantity;
+                    saveCart();
+                }
+            }
         }
 
-        function updateCartCount() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cart-count').textContent = totalItems;
-            document.getElementById('mobile-cart-count').textContent = totalItems;
+        function getCartTotal() {
+            return cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
         }
 
         function renderCartItems() {
@@ -2501,7 +1585,7 @@
                         <i class="fas fa-shopping-cart" style="font-size: 3rem; color: var(--gray); margin-bottom: 1rem;"></i>
                         <h3>Your cart is empty</h3>
                         <p>Add some products to get started</p>
-                        <button class="btn btn-primary mt-2" onclick="showPage('products'); toggleCart();">
+                        <button class="btn btn-primary mt-2" onclick="showPage('shop'); toggleCart();">
                             <i class="fas fa-store"></i> Browse Products
                         </button>
                     </div>
@@ -2510,128 +1594,259 @@
                 return;
             }
             
-            container.innerHTML = '';
+            let html = '';
             let total = 0;
             
-            cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
+            cart.forEach(item => {
+                const itemTotal = item.price * (item.quantity || 1);
                 total += itemTotal;
                 
-                const cartItem = document.createElement('div');
-                cartItem.className = 'cart-item';
-                cartItem.innerHTML = `
-                    <div class="cart-item-img">
-                        <i class="fas fa-${item.icon}"></i>
-                    </div>
-                    <div class="cart-item-info">
-                        <div class="cart-item-title">${item.name}</div>
-                        <div class="cart-item-price">$${item.price.toFixed(2)} each</div>
-                        <div class="cart-item-controls">
-                            <button class="quantity-btn" onclick="updateCartQuantity(${index}, -1)">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <span style="padding: 0 0.5rem; font-weight: bold;">${item.quantity}</span>
-                            <button class="quantity-btn" onclick="updateCartQuantity(${index}, 1)">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                            <button class="quantity-btn" onclick="removeFromCart(${index})" style="margin-left: 0.5rem; color: var(--danger);">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                html += `
+                    <div class="cart-item">
+                        <div class="cart-item-img">
+                            <i class="fas fa-${item.icon}"></i>
+                        </div>
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">${item.name}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)} each</div>
+                            <div class="cart-item-controls">
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${(item.quantity || 1) - 1})">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span style="padding: 0 0.5rem; font-weight: bold;">${item.quantity || 1}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${(item.quantity || 1) + 1})">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button class="quantity-btn" onclick="removeFromCart(${item.id})" style="margin-left: 0.5rem; color: var(--danger);">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div style="font-weight: bold; font-size: 1.125rem;">
+                            $${itemTotal.toFixed(2)}
                         </div>
                     </div>
-                    <div style="font-weight: bold; font-size: 1.125rem;">
-                        $${itemTotal.toFixed(2)}
-                    </div>
                 `;
-                container.appendChild(cartItem);
             });
             
+            container.innerHTML = html;
             totalElement.textContent = `$${total.toFixed(2)}`;
-        }
-
-        function updateCartQuantity(index, change) {
-            if (index < 0 || index >= cart.length) return;
-            
-            cart[index].quantity += change;
-            
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
-            
-            updateCart();
-        }
-
-        function removeFromCart(index) {
-            if (index < 0 || index >= cart.length) return;
-            
-            const itemName = cart[index].name;
-            cart.splice(index, 1);
-            updateCart();
-            showNotification(`${itemName} removed from cart`);
-        }
-
-        function saveCart() {
-            localStorage.setItem('cart', JSON.stringify(cart));
         }
 
         function toggleCart() {
             const cartModal = document.getElementById('cart-modal');
-            cartModal.classList.toggle('active');
-            
             if (cartModal.classList.contains('active')) {
+                cartModal.classList.remove('active');
+            } else {
                 renderCartItems();
+                cartModal.classList.add('active');
             }
         }
 
         function checkout() {
+            if (!currentUser) {
+                showNotification('Please login first', 'error');
+                showPage('login');
+                toggleCart();
+                return;
+            }
+            
             if (cart.length === 0) {
                 showNotification('Your cart is empty!', 'error');
                 return;
             }
             
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            
-            // Create order
+            const total = getCartTotal();
             const orderId = 'ORD-' + Date.now().toString().slice(-6);
             const order = {
                 id: orderId,
                 date: new Date().toISOString().split('T')[0],
-                items: cart.map(item => `${item.quantity}x ${item.name}`),
+                items: cart.map(item => `${item.quantity || 1}x ${item.name}`),
                 total: total,
-                status: 'pending'
+                status: 'pending',
+                customerId: currentUser.id,
+                customerName: currentUser.name
             };
             
-            // Save order
             orders.push(order);
             localStorage.setItem('orders', JSON.stringify(orders));
             
-            // Clear cart
+            // Create delivery
+            const delivery = {
+                id: deliveries.length + 1,
+                orderId: orderId,
+                customer: currentUser.name,
+                address: currentUser.address || "123 Main St, City",
+                status: "pending",
+                items: cart.length,
+                distance: "3.2km",
+                amount: `$${total.toFixed(2)}`,
+                riderId: 2
+            };
+            deliveries.push(delivery);
+            localStorage.setItem('deliveries', JSON.stringify(deliveries));
+            
             cart = [];
-            updateCart();
+            saveCart();
             
-            // Show success message
             showNotification(`Order #${orderId} placed successfully! Total: $${total.toFixed(2)}`, 'success');
-            
-            // Close cart modal
             toggleCart();
             
-            // Show confirmation
             setTimeout(() => {
                 alert(`Order Confirmation!\n\nOrder ID: ${orderId}\nTotal Amount: $${total.toFixed(2)}\n\nThank you for your purchase!`);
+                showPage('client-portal');
             }, 500);
         }
 
-        // ===== SERVICES MANAGEMENT =====
-        function setMinDateForServices() {
-            const today = new Date().toISOString().split('T')[0];
-            const serviceDate = document.getElementById('service-date');
-            if (serviceDate) {
-                serviceDate.min = today;
-                serviceDate.value = today;
+        // ===== PAGE MANAGEMENT =====
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const pageElement = document.getElementById(pageId + '-page');
+            if (pageElement) {
+                pageElement.classList.add('active');
+            }
+            
+            currentPage = pageId;
+            
+            // Update navigation active state
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeNavLink = document.querySelector(`.nav-link[onclick*="'${pageId}'"]`);
+            if (activeNavLink) {
+                activeNavLink.classList.add('active');
+            }
+            
+            // Close mobile menu if open
+            document.getElementById('mobileMenu').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showPortalTab(tabId) {
+            // Hide all tabs in current portal
+            const portalPage = document.querySelector('.page.active');
+            if (!portalPage) return;
+            
+            portalPage.querySelectorAll('.portal-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            const tabElement = document.getElementById(tabId);
+            if (tabElement) {
+                tabElement.classList.add('active');
+            }
+            
+            // Update tab buttons
+            const portalNav = portalPage.querySelector('.portal-nav');
+            if (portalNav) {
+                portalNav.querySelectorAll('.portal-tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
             }
         }
 
+        // ===== AUTHENTICATION =====
+        function login(email, password) {
+            const user = dummyData.users.find(u => 
+                u.email === email && u.password === password
+            );
+            
+            if (user) {
+                currentUser = { ...user };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                showNotification(`Welcome back, ${user.name}!`, 'success');
+                
+                // Redirect based on role
+                switch(user.role) {
+                    case 'client':
+                        showPage('client-portal');
+                        break;
+                    case 'rider':
+                        showPage('rider-portal');
+                        break;
+                    case 'delivery':
+                        showPage('delivery-portal');
+                        break;
+                    case 'admin':
+                        showPage('admin-dashboard');
+                        break;
+                    default:
+                        showPage('home');
+                }
+                
+                updateUserInterface();
+                return true;
+            } else {
+                showNotification('Invalid email or password', 'error');
+                return false;
+            }
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = null;
+                localStorage.removeItem('currentUser');
+                showNotification('Successfully logged out', 'success');
+                showPage('home');
+                updateUserInterface();
+            }
+        }
+
+        function updateUserInterface() {
+            const userAvatar = document.getElementById('user-avatar');
+            const userName = document.getElementById('user-name');
+            const dropdownAvatar = document.getElementById('dropdown-avatar');
+            const dropdownName = document.getElementById('dropdown-name');
+            const dropdownRole = document.getElementById('dropdown-role');
+            
+            if (currentUser) {
+                if (userAvatar) userAvatar.textContent = currentUser.avatar;
+                if (userName) userName.textContent = currentUser.name;
+                if (dropdownAvatar) dropdownAvatar.textContent = currentUser.avatar;
+                if (dropdownName) dropdownName.textContent = currentUser.name;
+                if (dropdownRole) dropdownRole.textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+                
+                // Show user-specific portal links
+                const portalLinks = {
+                    'client': ['client-portal-link', 'mobile-client-link'],
+                    'rider': ['rider-portal-link', 'mobile-rider-link'],
+                    'delivery': ['delivery-portal-link', 'mobile-delivery-link'],
+                    'admin': ['admin-portal-link', 'mobile-admin-link']
+                };
+                
+                // Hide all portal links first
+                Object.values(portalLinks).flat().forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) element.style.display = 'none';
+                });
+                
+                // Show appropriate portal links
+                if (portalLinks[currentUser.role]) {
+                    portalLinks[currentUser.role].forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) element.style.display = 'flex';
+                    });
+                }
+            }
+        }
+
+        // ===== SERVICE BOOKING =====
         function bookService() {
+            if (!currentUser) {
+                showNotification('Please login first', 'error');
+                showPage('login');
+                return;
+            }
+            
             const serviceType = document.getElementById('service-type');
             const serviceDate = document.getElementById('service-date');
             const serviceTime = document.getElementById('service-time');
@@ -2650,16 +1865,14 @@
                 date: serviceDate.value,
                 time: serviceTime.value,
                 status: 'scheduled',
+                customerId: currentUser.id,
+                customerName: currentUser.name,
                 createdAt: new Date().toISOString()
             };
             
             serviceBookings.push(booking);
             localStorage.setItem('serviceBookings', JSON.stringify(serviceBookings));
             
-            // Update UI
-            renderClientServices();
-            
-            // Show success message
             showNotification(`Service booked for ${serviceDate.value} at ${serviceTime.value}!`, 'success');
             
             // Clear form
@@ -2668,406 +1881,92 @@
             setMinDateForServices();
         }
 
-        function renderClientServices() {
-            const container = document.querySelector('#client-services .task-list');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (serviceBookings.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; background: white; border-radius: 12px;">
-                        <i class="fas fa-calendar-plus" style="font-size: 2rem; color: var(--gray); margin-bottom: 1rem;"></i>
-                        <h3>No services booked yet</h3>
-                        <p>Book your first service to get started</p>
-                    </div>
-                `;
+        function setMinDateForServices() {
+            const today = new Date().toISOString().split('T')[0];
+            const serviceDate = document.getElementById('service-date');
+            if (serviceDate) {
+                serviceDate.min = today;
+                serviceDate.value = today;
+            }
+        }
+
+        // ===== COURSE ENROLLMENT =====
+        function enrollCourse(courseId) {
+            if (!currentUser) {
+                showNotification('Please login first', 'error');
+                showPage('login');
                 return;
             }
             
-            serviceBookings.forEach(booking => {
-                const serviceItem = document.createElement('div');
-                serviceItem.className = 'task-item';
-                serviceItem.innerHTML = `
-                    <div>
-                        <h4>${booking.type.charAt(0).toUpperCase() + booking.type.slice(1)} Service</h4>
-                        <p>${booking.date} at ${booking.time}</p>
-                        <p style="font-size: 0.875rem; color: var(--gray); margin-top: 0.25rem;">
-                            Booked on ${new Date(booking.createdAt).toLocaleDateString()}
-                        </p>
-                    </div>
-                    <div>
-                        <span class="status status-${booking.status}">${booking.status}</span>
-                        <button class="btn btn-outline btn-sm mt-1" onclick="cancelService(${booking.id})">
-                            Cancel
-                        </button>
-                    </div>
-                `;
-                container.appendChild(serviceItem);
-            });
-        }
-
-        function cancelService(bookingId) {
-            if (!confirm('Are you sure you want to cancel this service?')) return;
+            const course = dummyData.courses.find(c => c.id === courseId);
+            if (!course) return;
             
-            const index = serviceBookings.findIndex(b => b.id === bookingId);
-            if (index !== -1) {
-                serviceBookings.splice(index, 1);
-                localStorage.setItem('serviceBookings', JSON.stringify(serviceBookings));
-                renderClientServices();
-                showNotification('Service cancelled successfully');
-            }
-        }
-
-        // ===== RIDER PORTAL FUNCTIONS =====
-        function updateRiderTasks() {
-            const container = document.getElementById('rider-tasks');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            deliveries.forEach(delivery => {
-                const task = document.createElement('div');
-                task.className = 'task-item';
-                task.innerHTML = `
-                    <div>
-                        <h4>Delivery #${delivery.orderId}</h4>
-                        <p>${delivery.customer} • ${delivery.address}</p>
-                        <p style="font-size: 0.875rem; color: var(--gray); margin-top: 0.25rem;">
-                            ${delivery.items} item(s) • ${delivery.distance} • ${delivery.amount}
-                        </p>
-                    </div>
-                    <div>
-                        <span class="status status-${delivery.status}">${delivery.status.replace('-', ' ')}</span>
-                        <div style="margin-top: 0.5rem;">
-                            <button class="btn btn-sm" onclick="viewDeliveryDetails(${delivery.id})" style="padding: 0.25rem 0.5rem;">
-                                Details
-                            </button>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(task);
-            });
-        }
-
-        function updateDeliveryStatus(action) {
-            if (deliveries.length === 0) {
-                showNotification('No deliveries available', 'error');
+            // Check if already enrolled
+            const userEnrollments = courseEnrollments.filter(e => e.userId === currentUser.id);
+            if (userEnrollments.some(e => e.courseId === courseId)) {
+                showNotification('You are already enrolled in this course', 'warning');
                 return;
             }
             
-            let message = '';
-            const pendingDelivery = deliveries.find(d => d.status === 'pending');
+            const enrollment = {
+                id: courseEnrollments.length + 1,
+                userId: currentUser.id,
+                courseId: courseId,
+                enrolledAt: new Date().toISOString(),
+                progress: 0,
+                status: 'active'
+            };
             
-            switch(action) {
-                case 'accepted':
-                    if (pendingDelivery) {
-                        pendingDelivery.status = 'in-progress';
-                        message = `Delivery #${pendingDelivery.orderId} accepted!`;
-                    } else {
-                        showNotification('No pending deliveries available', 'warning');
-                        return;
-                    }
-                    break;
-                    
-                case 'started':
-                    const inProgress = deliveries.find(d => d.status === 'in-progress');
-                    if (inProgress) {
-                        message = `Started delivery to ${inProgress.customer}`;
-                    } else {
-                        showNotification('No delivery to start', 'warning');
-                        return;
-                    }
-                    break;
-                    
-                case 'completed':
-                    const toComplete = deliveries.find(d => d.status === 'in-progress');
-                    if (toComplete) {
-                        toComplete.status = 'completed';
-                        message = `Delivery to ${toComplete.customer} completed!`;
-                    } else {
-                        showNotification('No delivery to complete', 'warning');
-                        return;
-                    }
-                    break;
-                    
-                case 'issue':
-                    const activeDelivery = deliveries.find(d => d.status === 'in-progress');
-                    if (activeDelivery) {
-                        message = `Issue reported for delivery #${activeDelivery.orderId}`;
-                    } else {
-                        showNotification('No active delivery to report issue on', 'warning');
-                        return;
-                    }
-                    break;
-            }
+            courseEnrollments.push(enrollment);
+            localStorage.setItem('courseEnrollments', JSON.stringify(courseEnrollments));
             
-            updateRiderTasks();
-            showNotification(message);
+            showNotification(`Enrolled in ${course.title} successfully!`, 'success');
         }
 
-        function viewDeliveryDetails(deliveryId) {
+        // ===== DELIVERY MANAGEMENT =====
+        function updateDeliveryStatus(deliveryId, status) {
             const delivery = deliveries.find(d => d.id === deliveryId);
-            if (!delivery) return;
-            
-            alert(`Delivery Details:\n\n` +
-                  `Order ID: ${delivery.orderId}\n` +
-                  `Customer: ${delivery.customer}\n` +
-                  `Address: ${delivery.address}\n` +
-                  `Items: ${delivery.items}\n` +
-                  `Distance: ${delivery.distance}\n` +
-                  `Amount: ${delivery.amount}\n` +
-                  `Status: ${delivery.status}\n\n` +
-                  `Contact: +1 234 567 8900\n` +
-                  `Instructions: Leave at front door if no answer`);
-        }
-
-        // ===== DELIVERY PORTAL FUNCTIONS =====
-        function scanBarcode() {
-            showNotification('Barcode scanner activated. Point camera at barcode.', 'info');
-            // Simulate barcode scan
-            setTimeout(() => {
-                showNotification('Barcode scanned: SH-78901', 'success');
-            }, 1000);
-        }
-
-        function printLabel() {
-            showNotification('Printing shipping label...', 'info');
-            // Simulate print
-            setTimeout(() => {
-                showNotification('Label printed successfully', 'success');
-            }, 1500);
-        }
-
-        function showManifest() {
-            const manifest = `
-                Daily Manifest - ${new Date().toLocaleDateString()}
+            if (delivery) {
+                delivery.status = status;
+                localStorage.setItem('deliveries', JSON.stringify(deliveries));
+                showNotification(`Delivery status updated to ${status}`, 'success');
                 
-                Total Shipments: 15
-                Total Weight: 42.5kg
-                Total Value: $1,245.99
+                // Update corresponding order status
+                const order = orders.find(o => o.id === delivery.orderId);
+                if (order) {
+                    order.status = status === 'delivered' ? 'delivered' : 'in-progress';
+                    localStorage.setItem('orders', JSON.stringify(orders));
+                }
                 
-                Shipments by Status:
-                • Ready for Pickup: 5
-                • In Transit: 8
-                • Delivered: 2
-                
-                Top Destinations:
-                • City Center: 6 shipments
-                • East District: 4 shipments
-                • West Park: 3 shipments
-                • North Hills: 2 shipments
-            `;
-            
-            alert(manifest);
-        }
-
-        function selectCourier(courier) {
-            const courierNames = {
-                'auspost': 'Australia Post',
-                'dhl': 'DHL Express',
-                'fedex': 'FedEx',
-                'ups': 'UPS'
-            };
-            
-            showNotification(`${courierNames[courier]} selected for shipping`, 'success');
-        }
-
-        // ===== CLIENT PORTAL FUNCTIONS =====
-        function renderClientOrders() {
-            const container = document.querySelector('#client-orders .task-list');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (orders.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 2rem; background: white; border-radius: 12px;">
-                        <i class="fas fa-shopping-bag" style="font-size: 2rem; color: var(--gray); margin-bottom: 1rem;"></i>
-                        <h3>No orders yet</h3>
-                        <p>Start shopping to see your orders here</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            orders.forEach(order => {
-                const orderItem = document.createElement('div');
-                orderItem.className = 'task-item';
-                orderItem.innerHTML = `
-                    <div>
-                        <h4>Order #${order.id}</h4>
-                        <p>${order.items.join(', ')}</p>
-                        <p style="font-size: 0.875rem; color: var(--gray); margin-top: 0.25rem;">
-                            Placed on ${order.date}
-                        </p>
-                    </div>
-                    <div>
-                        <span class="status status-${order.status}">${order.status}</span>
-                        <p class="mt-1" style="font-weight: bold;">$${order.total.toFixed(2)}</p>
-                        <button class="btn btn-outline btn-sm mt-1" onclick="trackOrder('${order.id}')">
-                            Track
-                        </button>
-                    </div>
-                `;
-                container.appendChild(orderItem);
-            });
-        }
-
-        function trackOrder(orderId) {
-            showNotification(`Tracking order #${orderId}...`, 'info');
-            
-            // Simulate tracking lookup
-            setTimeout(() => {
-                alert(`Order Tracking: #${orderId}\n\n` +
-                      `Status: In Transit\n` +
-                      `Last Update: Package arrived at distribution center\n` +
-                      `Estimated Delivery: Tomorrow by 8 PM\n` +
-                      `Current Location: City Distribution Hub\n` +
-                      `Tracking Number: TRK-${orderId}-001`);
-            }, 1000);
-        }
-
-        // ===== CHATBOT FUNCTIONS =====
-        function toggleChatbot() {
-            const chatbot = document.getElementById('chatbot');
-            chatbot.classList.toggle('active');
-            chatbotOpen = chatbot.classList.contains('active');
-            
-            if (chatbotOpen) {
-                document.getElementById('chatbot-input').focus();
+                // Re-render if on rider or delivery portal
+                if (currentPage === 'rider-portal' || currentPage === 'delivery-portal') {
+                    showPage(currentPage);
+                }
             }
         }
 
-        function sendChatMessage() {
-            const input = document.getElementById('chatbot-input');
-            const message = input.value.trim();
-            
-            if (!message) return;
-            
-            // Add user message
-            addChatMessage(message, 'user');
-            input.value = '';
-            
-            // Show typing indicator
-            const typingIndicator = document.createElement('div');
-            typingIndicator.className = 'chatbot-message message-bot';
-            typingIndicator.innerHTML = '<div class="loading" style="display: inline-block;"></div> Typing...';
-            document.getElementById('chatbot-messages').appendChild(typingIndicator);
-            
-            // Generate AI response after delay
-            setTimeout(() => {
-                // Remove typing indicator
-                typingIndicator.remove();
-                
-                // Generate and add response
-                const response = generateAIResponse(message);
-                addChatMessage(response, 'bot');
-            }, 1000 + Math.random() * 1000);
-        }
-
-        function addChatMessage(text, sender) {
-            const container = document.getElementById('chatbot-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chatbot-message message-${sender}`;
-            messageDiv.textContent = text;
-            container.appendChild(messageDiv);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function generateAIResponse(message) {
-            const lowerMessage = message.toLowerCase();
-            
-            // Define response patterns
-            const responses = {
-                greeting: [
-                    "Hello! How can I assist you today?",
-                    "Hi there! Welcome to E-Shop Pro. How can I help?",
-                    "Greetings! I'm your AI assistant. What can I do for you?"
-                ],
-                order: [
-                    "You can check your order status in the Client Portal under 'My Orders' section.",
-                    "For order inquiries, please visit your order history in the Client Portal.",
-                    "To track an order, go to Client Portal → My Orders and click 'Track' on your order."
-                ],
-                service: [
-                    "You can book services through our Services page. We offer repair, installation, consultation, and emergency services.",
-                    "Our professional services can be booked online. Visit Services page to schedule an appointment.",
-                    "For service bookings, please use the booking form on our Services page."
-                ],
-                product: [
-                    "We offer a wide range of products in electronics, home goods, fashion, and tools. Check our Products page!",
-                    "You can browse all products in the Shop section. Use filters to find what you need.",
-                    "Our products include electronics, home items, fashion, and tools. Visit the Products page to explore."
-                ],
-                delivery: [
-                    "Delivery status can be checked in the Client Portal. Riders can manage deliveries in the Rider Portal.",
-                    "For delivery inquiries, please check your order status or contact our delivery team.",
-                    "Delivery tracking is available in your order details in the Client Portal."
-                ],
-                help: [
-                    "I can help you with: product information, order status, service booking, course details, and general inquiries.",
-                    "You can ask me about: shopping, services, courses, delivery, or account management.",
-                    "Need help? I can assist with products, orders, services, courses, or platform navigation."
-                ],
-                default: [
-                    "I'm here to help! Could you please provide more details about what you need?",
-                    "I understand you're asking about something. Could you clarify your question?",
-                    "I want to help you better. Could you rephrase your question?"
-                ]
-            };
-            
-            // Check for keywords and return appropriate response
-            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-                return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
-            } else if (lowerMessage.includes('order') || lowerMessage.includes('purchase') || lowerMessage.includes('buy')) {
-                return responses.order[Math.floor(Math.random() * responses.order.length)];
-            } else if (lowerMessage.includes('service') || lowerMessage.includes('repair') || lowerMessage.includes('install')) {
-                return responses.service[Math.floor(Math.random() * responses.service.length)];
-            } else if (lowerMessage.includes('product') || lowerMessage.includes('item') || lowerMessage.includes('shop')) {
-                return responses.product[Math.floor(Math.random() * responses.product.length)];
-            } else if (lowerMessage.includes('delivery') || lowerMessage.includes('ship') || lowerMessage.includes('track')) {
-                return responses.delivery[Math.floor(Math.random() * responses.delivery.length)];
-            } else if (lowerMessage.includes('help') || lowerMessage.includes('assist') || lowerMessage.includes('support')) {
-                return responses.help[Math.floor(Math.random() * responses.help.length)];
-            } else {
-                return responses.default[Math.floor(Math.random() * responses.default.length)];
-            }
-        }
-
-        // ===== NOTIFICATION SYSTEM =====
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            const messageEl = document.getElementById('notification-message');
-            
-            if (!notification || !messageEl) return;
-            
-            // Set message and type
-            messageEl.textContent = message;
-            notification.className = 'notification';
-            notification.classList.add(type === 'error' ? 'notification-error' : 
-                                     type === 'warning' ? 'notification-warning' : 'active');
-            
-            // Set icon based on type
-            const icon = notification.querySelector('i');
-            if (icon) {
-                icon.className = type === 'error' ? 'fas fa-exclamation-circle' :
-                               type === 'warning' ? 'fas fa-exclamation-triangle' :
-                               'fas fa-check-circle';
+        // ===== INITIALIZATION =====
+        function initApp() {
+            // Check for stored user
+            const storedUser = localStorage.getItem('currentUser');
+            if (storedUser) {
+                currentUser = JSON.parse(storedUser);
+                updateUserInterface();
             }
             
-            // Auto-hide after 3 seconds
-            setTimeout(() => {
-                notification.classList.remove('active');
-            }, 3000);
+            // Initialize cart count
+            updateCartCount();
+            
+            // Set min date for service booking
+            setMinDateForServices();
+            
+            // Show home page by default
+            showPage('home');
+            
+            // Test all components
+            setTimeout(testAllComponents, 1000);
         }
 
-        // ===== MOBILE MENU =====
-        function toggleMobileMenu() {
-            document.getElementById('mobileMenu').classList.toggle('active');
-        }
-
-        // ===== TESTING FUNCTION =====
         function testAllComponents() {
             console.log('=== Testing All Components ===');
             
@@ -3076,22 +1975,13 @@
                 console.log('✓ Cart initialized correctly');
             }
             
-            // Test products
-            if (products.length === 8) {
-                console.log('✓ Products loaded correctly');
-            }
-            
             // Test localStorage
             if (localStorage.getItem('cart') !== null) {
                 console.log('✓ localStorage working correctly');
             }
             
             // Test all buttons exist
-            const requiredButtons = [
-                '.btn-primary', '.btn-secondary', '.btn-outline',
-                '.cart-btn', '.user-btn', '.mobile-menu-btn'
-            ];
-            
+            const requiredButtons = ['.btn-primary', '.btn-secondary', '.btn-outline'];
             let allButtonsExist = true;
             requiredButtons.forEach(selector => {
                 if (!document.querySelector(selector)) {
@@ -3104,115 +1994,773 @@
                 console.log('✓ All required buttons exist');
             }
             
-            // Test all pages exist
-            const requiredPages = ['home', 'products', 'services', 'courses', 'client', 'rider', 'delivery', 'admin'];
-            let allPagesExist = true;
-            
-            requiredPages.forEach(page => {
-                if (!document.getElementById(`${page}-page`)) {
-                    console.log(`✗ Missing page: ${page}`);
-                    allPagesExist = false;
-                }
-            });
-            
-            if (allPagesExist) {
-                console.log('✓ All pages exist');
-            }
-            
-            // Test responsive elements
-            if (window.innerWidth < 768) {
-                const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-                if (mobileMenuBtn && getComputedStyle(mobileMenuBtn).display !== 'none') {
-                    console.log('✓ Mobile menu button visible on mobile');
-                }
-            }
-            
             console.log('=== Component Testing Complete ===');
         }
 
-        // ===== KEYBOARD SHORTCUTS =====
+        // ===== MOBILE MENU =====
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // ===== EVENT LISTENERS =====
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            // Ctrl/Cmd + K to toggle chatbot
+            // Ctrl/Cmd + K to open cart
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
-                toggleChatbot();
+                toggleCart();
             }
             
             // Esc to close modals
             if (e.key === 'Escape') {
                 document.getElementById('cart-modal').classList.remove('active');
-                document.getElementById('chatbot').classList.remove('active');
                 document.getElementById('mobileMenu').classList.remove('active');
-            }
-            
-            // Arrow keys for portal navigation
-            if (currentPage.includes('portal') || currentPage.includes('client') || currentPage.includes('rider') || currentPage.includes('delivery') || currentPage.includes('admin')) {
-                if (e.key === 'ArrowRight') {
-                    navigatePortalTabs(1);
-                } else if (e.key === 'ArrowLeft') {
-                    navigatePortalTabs(-1);
-                }
             }
         });
 
-        function navigatePortalTabs(direction) {
-            const portalPage = document.querySelector('.page.active');
-            if (!portalPage) return;
-            
-            const tabs = Array.from(portalPage.querySelectorAll('.portal-tab-btn'));
-            const activeIndex = tabs.findIndex(tab => tab.classList.contains('active'));
-            
-            if (activeIndex !== -1) {
-                const newIndex = (activeIndex + direction + tabs.length) % tabs.length;
-                tabs[newIndex].click();
-            }
-        }
-
-        // ===== WINDOW EVENT LISTENERS =====
+        // Close modals when clicking outside
         window.addEventListener('click', function(event) {
-            // Close cart modal if clicking outside
             const cartModal = document.getElementById('cart-modal');
             if (event.target === cartModal) {
                 cartModal.classList.remove('active');
             }
-            
-            // Close chatbot if clicking outside
-            const chatbot = document.getElementById('chatbot');
-            const chatbotToggle = document.querySelector('.chatbot-toggle');
-            if (chatbotOpen && 
-                !chatbot.contains(event.target) && 
-                !chatbotToggle.contains(event.target)) {
-                chatbot.classList.remove('active');
-                chatbotOpen = false;
-            }
-            
-            // Close mobile menu if clicking outside
-            const mobileMenu = document.getElementById('mobileMenu');
-            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-            if (mobileMenu.classList.contains('active') && 
-                !mobileMenu.contains(event.target) && 
-                !mobileMenuBtn.contains(event.target)) {
-                mobileMenu.classList.remove('active');
-            }
         });
 
-        // Auto-refresh cart count on page visibility change
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden) {
-                updateCartCount();
-            }
-        });
+        // ===== REACT COMPONENTS =====
+        const { useState, useEffect } = React;
 
-        // ===== EXPORT TEST FUNCTIONS =====
-        window.runTests = testAllComponents;
-        window.clearCart = function() {
-            cart = [];
-            updateCart();
-            showNotification('Cart cleared');
-        };
-        window.addTestProduct = function() {
-            addToCart(1);
-        };
+        function App() {
+            return (
+                <div className="app">
+                    <Navbar />
+                    <div className="main-content">
+                        {/* Home Page */}
+                        <div className="page active" id="home-page">
+                            <section className="hero">
+                                <div className="hero-content">
+                                    <h1>Complete E-Commerce Platform</h1>
+                                    <p>Shop, Book Services, Learn Courses & Manage Everything in One Place</p>
+                                    <div className="hero-buttons">
+                                        <button className="btn btn-primary btn-lg" onClick={() => showPage('shop')}>
+                                            <i className="fas fa-shopping-bag"></i> Start Shopping
+                                        </button>
+                                        <button className="btn btn-secondary btn-lg" onClick={() => showPage('services')}>
+                                            <i className="fas fa-calendar-check"></i> Book Service
+                                        </button>
+                                        <button className="btn btn-outline btn-lg" onClick={() => showPage('courses')}>
+                                            <i className="fas fa-graduation-cap"></i> Explore Courses
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="hero-image">
+                                    <div className="hero-img">
+                                        <i className="fas fa-shopping-cart" style={{fontSize: '15rem', color: 'var(--primary)', opacity: 0.8}}></i>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section className="section">
+                                <h2 className="section-title">Shop by Category</h2>
+                                <div className="categories-grid">
+                                    {dummyData.categories.filter(c => c.id !== 'all').map(category => (
+                                        <div key={category.id} className="category-card" onClick={() => {
+                                            showPage('shop');
+                                            setTimeout(() => {
+                                                const filterBtn = document.querySelector(`.filter-btn[onclick*="${category.id}"]`);
+                                                if (filterBtn) filterBtn.click();
+                                            }, 100);
+                                        }}>
+                                            <i className={`fas fa-${category.id === 'electronics' ? 'laptop' : category.id === 'home' ? 'home' : category.id === 'fashion' ? 'tshirt' : 'tools'} category-icon`}></i>
+                                            <h3>{category.name}</h3>
+                                            <p>Browse amazing products</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+
+                            <section className="section">
+                                <div className="products-header">
+                                    <h2 style={{textAlign: 'left', margin: 0}}>Featured Products</h2>
+                                    <button className="btn btn-primary" onClick={() => showPage('shop')}>
+                                        View All Products <i className="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                                <div className="products-grid">
+                                    {dummyData.products.slice(0, 4).map(product => (
+                                        <div key={product.id} className="product-card">
+                                            <div className="product-img">
+                                                <i className={`fas fa-${product.icon}`}></i>
+                                            </div>
+                                            <div className="product-info">
+                                                <h3 className="product-title">{product.name}</h3>
+                                                <p className="product-category">{product.category}</p>
+                                                <div className="product-price">${product.price.toFixed(2)}</div>
+                                                <div className="product-rating">
+                                                    {'★'.repeat(Math.floor(product.rating))}{'☆'.repeat(5 - Math.floor(product.rating))}
+                                                    ({product.rating})
+                                                </div>
+                                                <button className="btn btn-primary btn-full mt-2" onClick={() => addToCart(product)}>
+                                                    <i className="fas fa-cart-plus"></i> Add to Cart
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        </div>
+
+                        {/* Shop Page */}
+                        <div className="page" id="shop-page">
+                            <div style={{background: 'linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%)', padding: '3rem 1.5rem'}}>
+                                <div className="container" style={{maxWidth: '1400px', margin: '0 auto'}}>
+                                    <h1 style={{fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--dark)', marginBottom: '0.5rem'}}>Shop Products</h1>
+                                    <p style={{color: 'var(--gray)', fontSize: '1.125rem'}}>Discover amazing products at great prices</p>
+                                </div>
+                            </div>
+
+                            <div className="container" style={{maxWidth: '1400px', margin: '0 auto', padding: '2rem 1.5rem'}}>
+                                <div style={{display: 'flex', flexDirection: 'column', gap: '2rem'}}>
+                                    {/* Filters */}
+                                    <div style={{background: 'white', borderRadius: '12px', padding: '1.5rem', boxShadow: 'var(--shadow)'}}>
+                                        <div style={{display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center'}}>
+                                            {dummyData.categories.map(category => (
+                                                <button key={category.id} className="filter-btn active" onClick={() => filterProducts(category.id)}>
+                                                    {category.name}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Products Grid */}
+                                    <div className="products-grid" id="shop-products">
+                                        {dummyData.products.map(product => (
+                                            <div key={product.id} className="product-card">
+                                                <div className="product-img">
+                                                    <i className={`fas fa-${product.icon}`}></i>
+                                                </div>
+                                                <div className="product-info">
+                                                    <h3 className="product-title">{product.name}</h3>
+                                                    <p className="product-category">{product.category}</p>
+                                                    <div className="product-price">${product.price.toFixed(2)}</div>
+                                                    <div className="product-rating">
+                                                        {'★'.repeat(Math.floor(product.rating))}{'☆'.repeat(5 - Math.floor(product.rating))}
+                                                        ({product.rating})
+                                                    </div>
+                                                    <button className="btn btn-primary btn-full mt-2" onClick={() => addToCart(product)}>
+                                                        <i className="fas fa-cart-plus"></i> Add to Cart
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Services Page */}
+                        <div className="page" id="services-page">
+                            <section className="section">
+                                <h2 className="section-title">Professional Services</h2>
+                                <div className="services-container">
+                                    <div className="booking-form">
+                                        <h3 style={{marginBottom: '2rem'}}><i className="fas fa-calendar-check"></i> Book a Service</h3>
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="service-type">Service Type</label>
+                                            <select className="form-control" id="service-type">
+                                                <option value="repair">Repair & Maintenance</option>
+                                                <option value="installation">Installation Service</option>
+                                                <option value="consultation">Professional Consultation</option>
+                                                <option value="emergency">Emergency Service</option>
+                                            </select>
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="service-date">Preferred Date</label>
+                                            <input type="date" className="form-control" id="service-date" />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="service-time">Preferred Time</label>
+                                            <input type="time" className="form-control" id="service-time" />
+                                        </div>
+                                        <button className="btn btn-primary btn-full" onClick={bookService}>
+                                            <i className="fas fa-bookmark"></i> Book Service Now
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <h3 style={{marginBottom: '1.5rem'}}><i className="fas fa-shield-alt"></i> Service Benefits</h3>
+                                        <div className="service-features">
+                                            {[
+                                                {icon: 'check-circle', title: 'Same-Day Service', desc: 'Available for emergencies'},
+                                                {icon: 'check-circle', title: 'Certified Technicians', desc: 'Expert professionals'},
+                                                {icon: 'check-circle', title: '90-Day Warranty', desc: 'On all repairs'},
+                                                {icon: 'check-circle', title: 'Real-Time Tracking', desc: 'Monitor service progress'}
+                                            ].map((feature, idx) => (
+                                                <div key={idx} className="feature">
+                                                    <i className={`fas fa-${feature.icon}`}></i>
+                                                    <div>
+                                                        <h4>{feature.title}</h4>
+                                                        <p>{feature.desc}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+
+                        {/* Courses Page */}
+                        <div className="page" id="courses-page">
+                            <section className="section">
+                                <h2 className="section-title">Online Courses</h2>
+                                <div className="products-grid">
+                                    {dummyData.courses.map(course => (
+                                        <div key={course.id} className="product-card">
+                                            <div className="product-img">
+                                                <i className={`fas fa-${course.icon}`}></i>
+                                            </div>
+                                            <div className="product-info">
+                                                <h3 className="product-title">{course.title}</h3>
+                                                <p className="product-category">{course.category}</p>
+                                                <div className="product-price">${course.price.toFixed(2)}</div>
+                                                <div className="product-rating">
+                                                    {'★'.repeat(Math.floor(course.rating))}{'☆'.repeat(5 - Math.floor(course.rating))}
+                                                    ({course.rating})
+                                                </div>
+                                                <button className="btn btn-primary btn-full" onClick={() => enrollCourse(course.id)}>
+                                                    <i className="fas fa-shopping-cart"></i> Enroll Now
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        </div>
+
+                        {/* Login Page */}
+                        <div className="page" id="login-page">
+                            <div className="login-container">
+                                <div className="login-card">
+                                    <div className="login-header">
+                                        <i className="fas fa-user-circle login-icon"></i>
+                                        <h1 className="login-title">Client Portal</h1>
+                                        <p className="login-subtitle">Sign in to access your account</p>
+                                    </div>
+                                    <div className="login-body">
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="login-email">Email Address</label>
+                                            <input type="email" className="form-control" id="login-email" placeholder="Enter your email" />
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="form-label" htmlFor="login-password">Password</label>
+                                            <input type="password" className="form-control" id="login-password" placeholder="Enter your password" />
+                                        </div>
+                                        <div className="login-options">
+                                            <label className="remember-me">
+                                                <input type="checkbox" id="login-remember" />
+                                                <span>Remember me</span>
+                                            </label>
+                                            <a href="#" className="forgot-password">Forgot Password?</a>
+                                        </div>
+                                        <button className="btn btn-primary btn-full mt-3" onClick={() => {
+                                            const email = document.getElementById('login-email').value;
+                                            const password = document.getElementById('login-password').value;
+                                            if (login(email, password)) {
+                                                showPage('client-portal');
+                                            }
+                                        }}>
+                                            <i className="fas fa-sign-in-alt"></i> Sign In
+                                        </button>
+                                        <div className="login-footer">
+                                            <p>Don't have an account? <a href="#" onClick={() => showPage('register')}>Sign up</a></p>
+                                            <p className="mt-2">
+                                                <a href="#" onClick={() => showPage('home')}>
+                                                    <i className="fas fa-arrow-left"></i> Back to Home
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Client Portal */}
+                        <div className="page" id="client-portal-page">
+                            <div className="portal-header">
+                                <h1 className="portal-title"><i className="fas fa-user-circle"></i> Client Portal</h1>
+                                <p>Manage your orders, services, and courses</p>
+                                <div className="portal-nav">
+                                    <button className="portal-tab-btn active" onClick={() => showPortalTab('client-dashboard')}>Dashboard</button>
+                                    <button className="portal-tab-btn" onClick={() => showPortalTab('client-orders')}>My Orders</button>
+                                    <button className="portal-tab-btn" onClick={() => showPortalTab('client-services')}>Services</button>
+                                    <button className="portal-tab-btn" onClick={() => showPortalTab('client-courses')}>My Courses</button>
+                                </div>
+                            </div>
+                            <div className="portal-content">
+                                <div className="portal-tab active" id="client-dashboard">
+                                    <div className="stats-grid">
+                                        <div className="stat-card">
+                                            <i className="fas fa-shopping-bag stat-icon"></i>
+                                            <h3>Active Orders</h3>
+                                            <div className="stat-number">{orders.filter(o => o.customerId === currentUser?.id && o.status === 'pending').length}</div>
+                                            <p>In progress</p>
+                                        </div>
+                                        <div className="stat-card">
+                                            <i className="fas fa-tools stat-icon"></i>
+                                            <h3>Service Requests</h3>
+                                            <div className="stat-number">{serviceBookings.filter(b => b.customerId === currentUser?.id).length}</div>
+                                            <p>Active services</p>
+                                        </div>
+                                        <div className="stat-card">
+                                            <i className="fas fa-graduation-cap stat-icon"></i>
+                                            <h3>Course Progress</h3>
+                                            <div className="stat-number">
+                                                {courseEnrollments.filter(e => e.userId === currentUser?.id).length > 0 ? '75%' : '0%'}
+                                            </div>
+                                            <p>Learning progress</p>
+                                        </div>
+                                        <div className="stat-card">
+                                            <i className="fas fa-star stat-icon"></i>
+                                            <h3>Loyalty Points</h3>
+                                            <div className="stat-number">1,250</div>
+                                            <p>Redeem rewards</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="portal-tab" id="client-orders">
+                                    <h2><i className="fas fa-history"></i> Order History</h2>
+                                    <div className="task-list mt-3">
+                                        {orders.filter(o => o.customerId === currentUser?.id).map(order => (
+                                            <div key={order.id} className="task-item">
+                                                <div>
+                                                    <h4>Order #{order.id}</h4>
+                                                    <p>{order.items.join(', ')}</p>
+                                                    <p style={{fontSize: '0.875rem', color: 'var(--gray)', marginTop: '0.25rem'}}>
+                                                        Placed on {order.date}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <span className={`status status-${order.status}`}>{order.status}</span>
+                                                    <p className="mt-1" style={{fontWeight: 'bold'}}>${order.total.toFixed(2)}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="portal-tab" id="client-services">
+                                    <h2><i className="fas fa-calendar-check"></i> Service History</h2>
+                                    <div className="task-list mt-3">
+                                        {serviceBookings.filter(b => b.customerId === currentUser?.id).map(booking => (
+                                            <div key={booking.id} className="task-item">
+                                                <div>
+                                                    <h4>{booking.type.charAt(0).toUpperCase() + booking.type.slice(1)} Service</h4>
+                                                    <p>{booking.date} at {booking.time}</p>
+                                                </div>
+                                                <div>
+                                                    <span className={`status status-${booking.status}`}>{booking.status}</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="portal-tab" id="client-courses">
+                                    <h2><i className="fas fa-graduation-cap"></i> My Courses</h2>
+                                    <div className="stats-grid mt-3">
+                                        {courseEnrollments.filter(e => e.userId === currentUser?.id).map(enrollment => {
+                                            const course = dummyData.courses.find(c => c.id === enrollment.courseId);
+                                            return course ? (
+                                                <div key={enrollment.id} className="stat-card">
+                                                    <i className={`fas fa-${course.icon} stat-icon`}></i>
+                                                    <h3>{course.title}</h3>
+                                                    <div className="stat-number">75%</div>
+                                                    <p>{course.lessons} lessons</p>
+                                                    <button className="btn btn-primary btn-sm btn-full mt-2">
+                                                        <i className="fas fa-play"></i> Continue Learning
+                                                    </button>
+                                                </div>
+                                            ) : null;
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Rider Portal */}
+                        <div className="page" id="rider-portal-page">
+                            <div className="portal-header">
+                                <h1 className="portal-title"><i className="fas fa-motorcycle"></i> Rider Portal</h1>
+                                <p>Manage deliveries and track earnings</p>
+                                <div className="portal-nav">
+                                    <button className="portal-tab-btn active" onClick={() => showPortalTab('rider-dashboard')}>Dashboard</button>
+                                    <button className="portal-tab-btn" onClick={() => showPortalTab('rider-deliveries')}>Active Deliveries</button>
+                                </div>
+                            </div>
+                            <div className="portal-content">
+                                <div className="portal-tab active" id="rider-dashboard">
+                                    <div className="stats-grid">
+                                        <div className="stat-card">
+                                            <i className="fas fa-box stat-icon"></i>
+                                            <h3>Active Deliveries</h3>
+                                            <div className="stat-number">{deliveries.filter(d => d.riderId === currentUser?.id && d.status !== 'delivered').length}</div>
+                                            <p>To be delivered</p>
+                                        </div>
+                                        <div className="stat-card">
+                                            <i className="fas fa-money-bill-wave stat-icon"></i>
+                                            <h3>Today's Earnings</h3>
+                                            <div className="stat-number">$124.50</div>
+                                            <p>From 8 deliveries</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="portal-tab" id="rider-deliveries">
+                                    <h2><i className="fas fa-boxes"></i> Active Deliveries</h2>
+                                    <div className="task-list mt-3">
+                                        {deliveries.filter(d => d.riderId === currentUser?.id).map(delivery => (
+                                            <div key={delivery.id} className="task-item">
+                                                <div>
+                                                    <h4>Delivery #{delivery.orderId}</h4>
+                                                    <p>{delivery.customer} • {delivery.address}</p>
+                                                    <p className="mt-1">{delivery.items} item(s) • {delivery.distance}</p>
+                                                </div>
+                                                <div>
+                                                    <span className={`status status-${delivery.status}`}>{delivery.status}</span>
+                                                    <div className="mt-2">
+                                                        <button className="btn btn-sm" onClick={() => updateDeliveryStatus(delivery.id, 'in-progress')}>
+                                                            Start Delivery
+                                                        </button>
+                                                        <button className="btn btn-sm ml-2" onClick={() => updateDeliveryStatus(delivery.id, 'delivered')}>
+                                                            Mark Delivered
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Admin Dashboard */}
+                        <div className="page" id="admin-dashboard-page">
+                            <div className="portal-header">
+                                <h1 className="portal-title"><i className="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+                                <p>Complete platform management and analytics</p>
+                                <div className="portal-nav">
+                                    <button className="portal-tab-btn active" onClick={() => showPortalTab('admin-overview')}>Overview</button>
+                                    <button className="portal-tab-btn" onClick={() => showPortalTab('admin-orders')}>Orders</button>
+                                </div>
+                            </div>
+                            <div className="portal-content">
+                                <div className="portal-tab active" id="admin-overview">
+                                    <div className="stats-grid">
+                                        <div className="stat-card">
+                                            <i className="fas fa-chart-line stat-icon"></i>
+                                            <h3>Total Revenue</h3>
+                                            <div className="stat-number">${orders.reduce((sum, o) => sum + o.total, 0).toFixed(2)}</div>
+                                            <p>All orders</p>
+                                        </div>
+                                        <div className="stat-card">
+                                            <i className="fas fa-shopping-cart stat-icon"></i>
+                                            <h3>Total Orders</h3>
+                                            <div className="stat-number">{orders.length}</div>
+                                            <p>Completed orders</p>
+                                        </div>
+                                        <div className="stat-card">
+                                            <i className="fas fa-users stat-icon"></i>
+                                            <h3>Active Users</h3>
+                                            <div className="stat-number">{dummyData.users.length}</div>
+                                            <p>Registered users</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="portal-tab" id="admin-orders">
+                                    <h2><i className="fas fa-shopping-bag"></i> Order Management</h2>
+                                    <div className="task-list mt-3">
+                                        {orders.map(order => (
+                                            <div key={order.id} className="task-item">
+                                                <div>
+                                                    <h4>Order #{order.id}</h4>
+                                                    <p>{order.customerName} • {order.items.join(', ')}</p>
+                                                    <p className="mt-1">Placed: {order.date}</p>
+                                                </div>
+                                                <div>
+                                                    <span className={`status status-${order.status}`}>{order.status}</span>
+                                                    <p className="mt-1" style={{fontWeight: 'bold'}}>${order.total.toFixed(2)}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Cart Page */}
+                        <div className="page" id="cart-page">
+                            <div style={{maxWidth: '1400px', margin: '0 auto', padding: '2rem 1.5rem'}}>
+                                <h1 style={{fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--dark)', marginBottom: '2rem'}}>Shopping Cart</h1>
+                                {cart.length === 0 ? (
+                                    <div style={{textAlign: 'center', padding: '4rem 1rem'}}>
+                                        <i className="fas fa-shopping-cart" style={{fontSize: '4rem', color: 'var(--gray)', marginBottom: '1rem'}}></i>
+                                        <h2 style={{fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem'}}>Your cart is empty</h2>
+                                        <p style={{color: 'var(--gray)', marginBottom: '2rem'}}>Add some products to get started</p>
+                                        <button className="btn btn-primary" onClick={() => showPage('shop')}>
+                                            <i className="fas fa-store"></i> Start Shopping
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div style={{display: 'grid', gridTemplateColumns: '1fr', gap: '2rem'}}>
+                                        {cart.map(item => (
+                                            <div key={item.id} style={{background: 'white', borderRadius: '12px', padding: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'center'}}>
+                                                <div style={{width: '80px', height: '80px', background: 'linear-gradient(135deg, #f1f5f9, #e2e8f0)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                                    <i className={`fas fa-${item.icon}`} style={{fontSize: '2rem', color: 'var(--primary)'}}></i>
+                                                </div>
+                                                <div style={{flex: 1}}>
+                                                    <h3 style={{fontWeight: 'bold', marginBottom: '0.25rem'}}>{item.name}</h3>
+                                                    <p style={{color: 'var(--primary)', fontWeight: 'bold', fontSize: '1.25rem'}}>${item.price.toFixed(2)}</p>
+                                                </div>
+                                                <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+                                                    <button className="btn btn-outline btn-sm" onClick={() => updateQuantity(item.id, (item.quantity || 1) - 1)}>
+                                                        <i className="fas fa-minus"></i>
+                                                    </button>
+                                                    <span style={{fontWeight: 'bold', minWidth: '30px', textAlign: 'center'}}>{item.quantity || 1}</span>
+                                                    <button className="btn btn-outline btn-sm" onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}>
+                                                        <i className="fas fa-plus"></i>
+                                                    </button>
+                                                    <button className="btn btn-danger btn-sm" onClick={() => removeFromCart(item.id)}>
+                                                        <i className="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <div style={{background: 'white', borderRadius: '12px', padding: '1.5rem'}}>
+                                            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem'}}>
+                                                <span style={{fontSize: '1.25rem', fontWeight: 'bold'}}>Total:</span>
+                                                <span style={{fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)'}}>${getCartTotal().toFixed(2)}</span>
+                                            </div>
+                                            <button className="btn btn-primary btn-full" onClick={checkout}>
+                                                <i className="fas fa-lock"></i> Proceed to Checkout
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <Footer />
+                </div>
+            );
+        }
+
+        function Navbar() {
+            return (
+                <nav className="main-nav">
+                    <div className="nav-container">
+                        <div className="logo" onClick={() => showPage('home')}>
+                            <i className="fas fa-shopping-cart logo-icon"></i>
+                            <span>E-Shop Pro</span>
+                        </div>
+
+                        <div className="nav-links">
+                            <a className="nav-link active" onClick={() => showPage('home')}>
+                                <i className="fas fa-home"></i> Home
+                            </a>
+                            <a className="nav-link" onClick={() => showPage('shop')}>
+                                <i className="fas fa-store"></i> Shop
+                            </a>
+                            <a className="nav-link" onClick={() => showPage('services')}>
+                                <i className="fas fa-tools"></i> Services
+                            </a>
+                            <a className="nav-link" onClick={() => showPage('courses')}>
+                                <i className="fas fa-graduation-cap"></i> Courses
+                            </a>
+
+                            <div className="user-menu">
+                                <button className="user-btn">
+                                    <div className="user-info">
+                                        <div className="user-avatar" id="user-avatar">
+                                            {currentUser ? currentUser.avatar : <i className="fas fa-user"></i>}
+                                        </div>
+                                        <span id="user-name">{currentUser ? currentUser.name : 'Guest'}</span>
+                                    </div>
+                                    <i className="fas fa-chevron-down"></i>
+                                </button>
+                                <div className="dropdown-menu">
+                                    {currentUser ? (
+                                        <>
+                                            <div className="user-info" style={{borderBottom: '1px solid var(--border)'}}>
+                                                <div className="user-avatar" id="dropdown-avatar">{currentUser.avatar}</div>
+                                                <div>
+                                                    <div style={{fontWeight: '600'}} id="dropdown-name">{currentUser.name}</div>
+                                                    <div style={{fontSize: '0.875rem', color: 'var(--gray)'}} id="dropdown-role">
+                                                        {currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1)}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a className="dropdown-item" id="client-portal-link" onClick={() => showPage('client-portal')}>
+                                                <i className="fas fa-user-circle"></i> Client Portal
+                                            </a>
+                                            <a className="dropdown-item" id="rider-portal-link" onClick={() => showPage('rider-portal')}>
+                                                <i className="fas fa-motorcycle"></i> Rider Portal
+                                            </a>
+                                            <a className="dropdown-item" id="delivery-portal-link" onClick={() => showPage('delivery-portal')}>
+                                                <i className="fas fa-shipping-fast"></i> Delivery Portal
+                                            </a>
+                                            <a className="dropdown-item" id="admin-portal-link" onClick={() => showPage('admin-dashboard')}>
+                                                <i className="fas fa-tachometer-alt"></i> Admin Dashboard
+                                            </a>
+                                            <a className="dropdown-item" onClick={logout} style={{color: 'var(--danger)'}}>
+                                                <i className="fas fa-sign-out-alt"></i> Logout
+                                            </a>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <a className="dropdown-item" onClick={() => showPage('login')}>
+                                                <i className="fas fa-sign-in-alt"></i> Login
+                                            </a>
+                                            <a className="dropdown-item" onClick={() => showPage('register')}>
+                                                <i className="fas fa-user-plus"></i> Register
+                                            </a>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+
+                            <button className="cart-btn" onClick={toggleCart}>
+                                <i className="fas fa-shopping-cart"></i>
+                                <span className="cart-count">{cart.reduce((sum, item) => sum + (item.quantity || 1), 0)}</span>
+                            </button>
+                        </div>
+
+                        <button className="mobile-menu-btn" onClick={toggleMobileMenu}>
+                            <i className="fas fa-bars"></i>
+                        </button>
+                    </div>
+
+                    <div className="mobile-menu" id="mobileMenu">
+                        <a className="nav-link" onClick={() => { showPage('home'); toggleMobileMenu(); }}>
+                            <i className="fas fa-home"></i> Home
+                        </a>
+                        <a className="nav-link" onClick={() => { showPage('shop'); toggleMobileMenu(); }}>
+                            <i className="fas fa-store"></i> Shop
+                        </a>
+                        <a className="nav-link" onClick={() => { showPage('services'); toggleMobileMenu(); }}>
+                            <i className="fas fa-tools"></i> Services
+                        </a>
+                        <a className="nav-link" onClick={() => { showPage('courses'); toggleMobileMenu(); }}>
+                            <i className="fas fa-graduation-cap"></i> Courses
+                        </a>
+                        <a className="nav-link" id="mobile-client-link" onClick={() => { showPage('client-portal'); toggleMobileMenu(); }}>
+                            <i className="fas fa-user-circle"></i> Client Portal
+                        </a>
+                        <a className="nav-link" id="mobile-rider-link" onClick={() => { showPage('rider-portal'); toggleMobileMenu(); }}>
+                            <i className="fas fa-motorcycle"></i> Rider Portal
+                        </a>
+                        <a className="nav-link" id="mobile-delivery-link" onClick={() => { showPage('delivery-portal'); toggleMobileMenu(); }}>
+                            <i className="fas fa-shipping-fast"></i> Delivery Portal
+                        </a>
+                        <a className="nav-link" id="mobile-admin-link" onClick={() => { showPage('admin-dashboard'); toggleMobileMenu(); }}>
+                            <i className="fas fa-tachometer-alt"></i> Admin Dashboard
+                        </a>
+                        <button className="nav-link" onClick={() => { toggleCart(); toggleMobileMenu(); }} style={{textAlign: 'left', background: 'none', border: 'none'}}>
+                            <i className="fas fa-shopping-cart"></i> Cart ({cart.reduce((sum, item) => sum + (item.quantity || 1), 0)})
+                        </button>
+                        {currentUser && (
+                            <button className="nav-link" onClick={() => { logout(); toggleMobileMenu(); }} style={{textAlign: 'left', background: 'none', border: 'none', color: 'var(--danger)'}}>
+                                <i className="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        )}
+                    </div>
+                </nav>
+            );
+        }
+
+        function Footer() {
+            return (
+                <footer className="footer">
+                    <div className="footer-content">
+                        <div className="footer-section">
+                            <h3>Platform Access</h3>
+                            <ul className="footer-links">
+                                <li><a onClick={() => showPage('login')}><i className="fas fa-user-circle"></i> Client Login</a></li>
+                                <li><a onClick={() => { 
+                                    document.getElementById('login-email').value = 'rider@example.com';
+                                    document.getElementById('login-password').value = 'password123';
+                                    showPage('login');
+                                }}><i className="fas fa-motorcycle"></i> Rider Login</a></li>
+                                <li><a onClick={() => { 
+                                    document.getElementById('login-email').value = 'admin@example.com';
+                                    document.getElementById('login-password').value = 'admin123';
+                                    showPage('login');
+                                }}><i className="fas fa-tachometer-alt"></i> Admin Login</a></li>
+                            </ul>
+                        </div>
+                        <div className="footer-section">
+                            <h3>Quick Links</h3>
+                            <ul className="footer-links">
+                                <li><a onClick={() => showPage('home')}><i className="fas fa-home"></i> Home</a></li>
+                                <li><a onClick={() => showPage('shop')}><i className="fas fa-store"></i> Shop</a></li>
+                                <li><a onClick={() => showPage('services')}><i className="fas fa-tools"></i> Services</a></li>
+                                <li><a onClick={() => showPage('courses')}><i className="fas fa-graduation-cap"></i> Courses</a></li>
+                            </ul>
+                        </div>
+                        <div className="footer-section">
+                            <h3>Support</h3>
+                            <ul className="footer-links">
+                                <li><a href="#"><i className="fas fa-question-circle"></i> Help Center</a></li>
+                                <li><a href="#"><i className="fas fa-envelope"></i> Contact Us</a></li>
+                                <li><a href="#"><i className="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                                <li><a href="#"><i className="fas fa-file-contract"></i> Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="copyright">
+                        <p>&copy; 2024 E-Shop Pro. All Rights Reserved.</p>
+                        <p className="mt-1">Complete E-Commerce Platform • All Features Functional • Single HTML File</p>
+                    </div>
+                </footer>
+            );
+        }
+
+        // ===== HELPER FUNCTIONS =====
+        function filterProducts(categoryId) {
+            const container = document.getElementById('shop-products');
+            if (!container) return;
+            
+            let filteredProducts = dummyData.products;
+            if (categoryId !== 'all') {
+                filteredProducts = dummyData.products.filter(p => p.category === categoryId);
+            }
+            
+            container.innerHTML = filteredProducts.map(product => `
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-${product.icon}"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-category">${product.category}</p>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <div class="product-rating">
+                            ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                            (${product.rating})
+                        </div>
+                        <button class="btn btn-primary btn-full mt-2" onclick="addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ===== RENDER APP =====
+        ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
 </html>
